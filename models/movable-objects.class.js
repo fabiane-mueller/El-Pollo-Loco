@@ -10,4 +10,8 @@ class MovableObjects{
         console.log("Moving right");
         
     }
+
+    moveLeft(){
+        console.log("Moving left");
+    }
 }
