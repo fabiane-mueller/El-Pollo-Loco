@@ -1,7 +1,7 @@
 
 let canvas;
 
-let world = new World();
+let world;
 
 function init(){
 
