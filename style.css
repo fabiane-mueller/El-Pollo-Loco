@@ -4,6 +4,59 @@ body{
     align-items: center;
 }
 
+
+.game-box{
+    position: relative;
+    width:720px;
+    height:480px;
+}
+
 canvas{
     background: #000;
+    position: absolute;
+    top:-720px;
+    z-index:2;
 }
+
+.start-screen{
+    width:720px;
+    height:480px;
+    background: url("img/9_intro_outro_screens/start/startscreen_1.png") no-repeat center center / contain;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index:1;
+   
+}
+
+.end-screen{
+    width:720px;
+    height:480px;
+    background: url("img/9_intro_outro_screens/game_over/oh no you lost!.png") no-repeat center center / contain;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top:-720px;
+}
+
+ button{
+        background-color: #C76758;
+        color:#fff;
+        border:2px solid #fff;
+        border-radius: 20px;
+        padding: 15px 30px;
+        box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s;
+        cursor: pointer;
+
+    }
+
+    button:hover{
+        box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.35);
+        background-color: #FFDC03;
+        color:#000;
+    }
