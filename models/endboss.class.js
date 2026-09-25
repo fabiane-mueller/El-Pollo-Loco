@@ -31,6 +31,9 @@ currentImages = 0;
     this.loadImages(this.IMAGES_WALKING);
     this.x = 1300;
     this.animate();
+    setInterval(() => {
+    this.getRealFrame();
+  }, 1000 / 60);
   }
 
   animate() {

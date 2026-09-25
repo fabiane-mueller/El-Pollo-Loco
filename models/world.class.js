@@ -47,19 +47,24 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         console.log("von huhn getroffen");
-        
+
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
-         if (this.character.isDead()) {
-          gameOver();
+        if (this.character.isDead()) {
+          console.log("game over");
+          
         }
       }
     });
     this.level.endboss.forEach((endboss) => {
       if (this.character.isColliding(endboss)) {
         console.log("von endboss getroffen");
+
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
+        if (this.character.isDead()) {
+          console.log("game over");
+        }
       }
     });
 
@@ -72,7 +77,7 @@ class World {
     this.throwableObjects.forEach((bottle) => {
       this.level.endboss.forEach((endboss) => {
         if (bottle.isColliding(endboss)) {
-          console.log("getroffen");
+          console.log("Endboss getroffen");
 
           endboss.hit();
           this.statusBarEndboss.setPercentage(endboss.energy);
@@ -97,15 +102,13 @@ class World {
     this.addObjectsToMap(this.throwableObjects);
 
     this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.level.endboss);
     this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.endboss);
+    
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
 
-    let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
+    requestAnimationFrame(() => this.draw());
   }
 
   addObjectsToMap(objects) {

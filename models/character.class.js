@@ -7,7 +7,7 @@ class Character extends MovableObjects {
 
 
   offset = {
-    top:50,
+    top:90,
     right: 10,
     bottom : 10,
     left:10
@@ -65,6 +65,9 @@ class Character extends MovableObjects {
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();
     this.animate();
+    setInterval(() => {
+    this.getRealFrame();
+  }, 1000 / 60);
   }
 
   animate() {

@@ -6,16 +6,19 @@ class Coins extends DrawableObject {
   width = 100;
 
   offset = {
-    top: 5,
-    right: 5,
-    bottom: 5,
-    left: 5
+    top: 35,
+    right: 35,
+    bottom: 35,
+    left: 35
   };
 
     constructor() {
         super().loadImage("img/8_coin/coin_1.png");
         this.setXPosition();
         this.y = 200 + Math.random() * 100;
+        setInterval(() => {
+            this.getRealFrame();
+        }, 1000 / 60);
     }
 
     setXPosition() {

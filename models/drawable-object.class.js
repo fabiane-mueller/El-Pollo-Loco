@@ -12,20 +12,42 @@ class DrawableObject{
       rW;
       rH;
 
+       offset = {
+    top:5,
+    right: 5,
+    bottom : 5,
+    left:5
+  }
+
 
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
 
+getRealFrame() {
+  this.rX = this.x + this.offset.left;
+  this.rY = this.y + this.offset.top;
+  this.rW = this.width - this.offset.left - this.offset.right;
+  this.rH = this.height - this.offset.top - this.offset.bottom;
+}
 
+
+isColliding(mO) {
+  return (
+    this.rX + this.rW > mO.rX &&
+    this.rY + this.rH > mO.rY &&
+    this.rX < mO.rX + mO.rW &&
+    this.rY < mO.rY + mO.rH
+  );
+}
 
    draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken) {
+    if (this instanceof Character || this instanceof Chicken || this instanceof Coins || this instanceof Endboss) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
@@ -33,6 +55,7 @@ class DrawableObject{
       ctx.stroke();
     }
   }
+
 
     loadImages(arr) {
     arr.forEach((path) => {
