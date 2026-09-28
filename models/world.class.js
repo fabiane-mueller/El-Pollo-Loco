@@ -1,13 +1,14 @@
 class World {
   character = new Character();
   level = level1;
-
+  numberItems = 0;
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
   statusBar = new StatusBar();
   statusBarEndboss = new StatusBarEndboss();
+  statusBarBottles = new StatusBarBottles();
   statusBarCoins = new StatusBarCoins();
   throwableObjects = [];
 
@@ -31,35 +32,37 @@ class World {
     }, 200);
   }
 
-  checkThrowObjects() {
-    if (this.keyboard.D) {
-      let bottle = new ThrowableObjects(
-        this.character.x + 100,
-        this.character.y + 100,
-      );
-      this.throwableObjects.push(bottle);
-    }
+checkThrowObjects() {
+  if (this.keyboard.D && this.throwableObjects.length > 0) {
+    let bottle = this.throwableObjects.pop();
+
+    this.statusBarBottles.setPercentage(
+      this.statusBarBottles.percentage - 20
+    );
+
+    bottle.throw();
   }
+}
 
   checkCollisions() {
     //check Collisions
 
+    //  Pepe von Hühner getroffen
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         console.log("von huhn getroffen");
-
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
         if (this.character.isDead()) {
           console.log("game over");
-          
         }
       }
     });
+
+    //  Pepe von Endboss getroffen
     this.level.endboss.forEach((endboss) => {
       if (this.character.isColliding(endboss)) {
         console.log("von endboss getroffen");
-
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
         if (this.character.isDead()) {
@@ -68,19 +71,45 @@ class World {
       }
     });
 
-    this.level.coins.forEach((coin) => {
-      if (this.character.isColliding(coin)) {
-        console.log("münze getroffen");
+    // Flaschen einsammeln
+    this.level.bottles.forEach((bottle) => {
+
+      if (this.character.isColliding(bottle)) {
+
+        let throwableBottle = new ThrowableObjects();
+
+        this.throwableObjects.push(throwableBottle);
+
+        let index = this.level.bottles.indexOf(bottle);
+        this.level.bottles.splice(index, 1);
+
+        this.statusBarBottles.setPercentage(
+          this.statusBarBottles.percentage + 20
+        );
       }
     });
 
+    //  Münze von Pepe getroffen , Pepe sammelt sie ein
+    this.level.bottles.forEach((bottle) => {
+      if (this.character.isColliding(bottle)) {
+        console.log("bottle getroffen");
+        this.numberItems += 1;
+        this.statusBarBottles.setPercentage(this.numberItems * 20);
+        let index = this.level.bottles.indexOf(bottle);
+        this.level.bottles.splice(index, 1);
+      }
+    });
+
+    //  Flasche trifft Endboss
     this.throwableObjects.forEach((bottle) => {
       this.level.endboss.forEach((endboss) => {
         if (bottle.isColliding(endboss)) {
           console.log("Endboss getroffen");
-
           endboss.hit();
           this.statusBarEndboss.setPercentage(endboss.energy);
+          if (endboss.isDead()) {
+          console.log("Endboss ist tot");
+        }
         }
       });
     });
@@ -88,26 +117,22 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     this.ctx.translate(this.camera_x, 0);
-
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
     this.addToMap(this.statusBarEndboss);
     this.addToMap(this.statusBarCoins);
+    this.addToMap(this.statusBarBottles);
     this.ctx.translate(this.camera_x, 0);
-
     this.addObjectsToMap(this.throwableObjects);
-
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.endboss);
-    
     this.addToMap(this.character);
     this.ctx.translate(-this.camera_x, 0);
-
     requestAnimationFrame(() => this.draw());
   }
 
@@ -115,6 +140,10 @@ class World {
     objects.forEach((o) => {
       this.addToMap(o);
     });
+  }
+
+  collectingItems() {
+    this.numberItems += 5;
   }
 
   addToMap(mo) {

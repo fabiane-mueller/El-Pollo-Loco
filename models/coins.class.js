@@ -4,6 +4,7 @@ class Coins extends DrawableObject {
    y = 150;
   height = 100;
   width = 100;
+  energy = 0;
 
   offset = {
     top: 35,
