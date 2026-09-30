@@ -12,9 +12,7 @@ class World {
   statusBarCoins = new StatusBarCoins();
   statusBarBottles = new StatusBarBottles();
 
- 
-
-collectedCoins =0;
+  collectedCoins = 0;
 
   throwableObjects = [];
   flyingObjects = [];
@@ -45,7 +43,7 @@ collectedCoins =0;
     if (this.keyboard.D && this.throwableObjects.length > 0) {
       let bottle = this.throwableObjects.pop();
       this.statusBarBottles.setPercentage(
-        this.statusBarBottles.percentage - 20
+        this.statusBarBottles.percentage - 20,
       );
       this.flyingObjects.push(bottle);
 
@@ -63,7 +61,6 @@ collectedCoins =0;
   }
 
   checkCollisions() {
-
     // Flaschen einsammeln
     this.level.bottles.forEach((bottle) => {
       if (
@@ -72,7 +69,7 @@ collectedCoins =0;
       ) {
         let throwableBottle = new ThrowableObjects(
           this.character.x + 100,
-          this.character.y + 100
+          this.character.y + 100,
         );
 
         this.throwableObjects.push(throwableBottle);
@@ -81,34 +78,32 @@ collectedCoins =0;
         this.level.bottles.splice(index, 1);
 
         this.statusBarBottles.setPercentage(
-          this.statusBarBottles.percentage + 20
+          this.statusBarBottles.percentage + 20,
         );
       }
     });
 
+    // Flaschen treffen Endboss
+    this.flyingObjects.forEach((bottle) => {
+      this.level.endboss.forEach((endboss) => {
+        if (bottle.isColliding(endboss)) {
+          endboss.hit();
+          this.statusBarEndboss.setPercentage(endboss.energy);
+        }
+      });
+    });
 
-// Flaschen treffen Endboss
-this.flyingObjects.forEach((bottle) => {
-  this.level.endboss.forEach((endboss) => {
-    if (bottle.isColliding(endboss)) {
-      endboss.hit();
-      this.statusBarEndboss.setPercentage(endboss.energy);
-    }
-  });
-});
+    // Flaschen treffen Chicken
+    this.flyingObjects.forEach((bottle) => {
+      this.level.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy)) {
+          let index = this.level.enemies.indexOf(enemy);
+          this.level.enemies.splice(index, 1);
+        }
+      });
+    });
 
-// Flaschen treffen Chicken
-this.flyingObjects.forEach((bottle) => {
-  this.level.enemies.forEach((enemy) => {
-    if (bottle.isColliding(enemy)) {
-       let index = this.level.enemies.indexOf(enemy);
-        this.level.enemies.splice(index, 1);
-    }
-  });
-});
-
-
-// wenn chicken Pepe berühren
+    // wenn chicken Pepe berühren
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
@@ -124,36 +119,39 @@ this.flyingObjects.forEach((bottle) => {
       }
     });
 
-
     // Münzen einsammeln
-  this.level.coins.forEach((coin) => {
-  if (this.character.isColliding(coin)) {
-    this.collectedCoins++;
-    console.log("Coins:", this.collectedCoins);
+    this.level.coins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        this.collectedCoins++;
+        console.log("Coins:", this.collectedCoins);
 
-    if (this.collectedCoins === 5) {
-      this.character.energy += 20;
-      this.collectedCoins = 0;
-      this.statusBarCoins.setPercentage(0);
-    } else {
-      this.statusBarCoins.setPercentage(
-        this.collectedCoins * 20
-      );
-    }
+        if (this.collectedCoins === 5) {
+          this.statusBarCoins.setPercentage(100);
 
-    let index = this.level.coins.indexOf(coin);
-    this.level.coins.splice(index, 1);
-  }
-});
+          setTimeout(() => {
+            this.character.energy += 20;
+
+            if (this.character.energy > 100) {
+              this.character.energy = 100;
+            }
+
+            this.statusBar.setPercentage(this.character.energy);
+
+            this.collectedCoins = 0;
+            this.statusBarCoins.setPercentage(0);
+          }, 1000);
+        } else {
+          this.statusBarCoins.setPercentage(this.collectedCoins * 20);
+        }
+
+        let index = this.level.coins.indexOf(coin);
+        this.level.coins.splice(index, 1);
+      }
+    });
   }
 
   draw() {
-    this.ctx.clearRect(
-      0,
-      0,
-      this.canvas.width,
-      this.canvas.height
-    );
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.translate(this.camera_x, 0);
 
