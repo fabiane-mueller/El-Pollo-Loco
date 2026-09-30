@@ -42,9 +42,8 @@ class Endboss extends MovableObjects {
     this.loadImages(this.IMAGES_DEAD);
     this.x = 1300;
     this.animate();
-    setInterval(() => {
-      this.getRealFrame();
-    }, 1000 / 60);
+    this.getRealFrame();
+    
   }
 
   animate() {

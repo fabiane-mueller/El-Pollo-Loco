@@ -1,6 +1,6 @@
 class Character extends MovableObjects {
   height = 250;
-  y = 200;
+  y = 180;
   speed = 10;
   width = 100;
 
@@ -60,12 +60,11 @@ class Character extends MovableObjects {
     this.loadImages(this.IMAGES_DEAD);
     this.applyGravity();
     this.animate();
-    setInterval(() => {
-      this.getRealFrame();
-    }, 1000 / 60);
+    this.getRealFrame();
   }
 
   animate() {
+     console.log(this.y);
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
@@ -102,5 +101,10 @@ class Character extends MovableObjects {
 
   jump() {
     this.speedY = 30;
+    
+  }
+
+  isFalling(){
+
   }
 }

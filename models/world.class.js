@@ -1,21 +1,29 @@
 class World {
   character = new Character();
   level = level1;
-  numberItems = 0;
+
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
+
   statusBar = new StatusBar();
   statusBarEndboss = new StatusBarEndboss();
-  statusBarBottles = new StatusBarBottles();
   statusBarCoins = new StatusBarCoins();
+  statusBarBottles = new StatusBarBottles();
+
+ 
+
+collectedCoins =0;
+
   throwableObjects = [];
+  flyingObjects = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+
     this.setWorld();
     this.draw();
     this.run();
@@ -29,54 +37,43 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
+      this.checkFlyingObjects();
     }, 200);
   }
 
-checkThrowObjects() {
-  if (this.keyboard.D && this.throwableObjects.length > 0) {
-    let bottle = this.throwableObjects.pop();
+  checkThrowObjects() {
+    if (this.keyboard.D && this.throwableObjects.length > 0) {
+      let bottle = this.throwableObjects.pop();
+      this.statusBarBottles.setPercentage(
+        this.statusBarBottles.percentage - 20
+      );
+      this.flyingObjects.push(bottle);
 
-    this.statusBarBottles.setPercentage(
-      this.statusBarBottles.percentage - 20
-    );
-
-    bottle.throw();
+      bottle.throw();
+    }
   }
-}
+
+  checkFlyingObjects() {
+    this.flyingObjects.forEach((bottle) => {
+      if (!bottle.isAboveGround()) {
+        let index = this.flyingObjects.indexOf(bottle);
+        this.flyingObjects.splice(index, 1);
+      }
+    });
+  }
 
   checkCollisions() {
-    //check Collisions
-
-    //  Pepe von Hühner getroffen
-    this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
-        console.log("von huhn getroffen");
-        this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
-        if (this.character.isDead()) {
-          console.log("game over");
-        }
-      }
-    });
-
-    //  Pepe von Endboss getroffen
-    this.level.endboss.forEach((endboss) => {
-      if (this.character.isColliding(endboss)) {
-        console.log("von endboss getroffen");
-        this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
-        if (this.character.isDead()) {
-          console.log("game over");
-        }
-      }
-    });
 
     // Flaschen einsammeln
     this.level.bottles.forEach((bottle) => {
-
-      if (this.character.isColliding(bottle)) {
-
-        let throwableBottle = new ThrowableObjects();
+      if (
+        this.character.isColliding(bottle) &&
+        this.throwableObjects.length < 5
+      ) {
+        let throwableBottle = new ThrowableObjects(
+          this.character.x + 100,
+          this.character.y + 100
+        );
 
         this.throwableObjects.push(throwableBottle);
 
@@ -89,80 +86,121 @@ checkThrowObjects() {
       }
     });
 
-    //  Münze von Pepe getroffen , Pepe sammelt sie ein
-    this.level.bottles.forEach((bottle) => {
-      if (this.character.isColliding(bottle)) {
-        console.log("bottle getroffen");
-        this.numberItems += 1;
-        this.statusBarBottles.setPercentage(this.numberItems * 20);
-        let index = this.level.bottles.indexOf(bottle);
-        this.level.bottles.splice(index, 1);
+
+// Flaschen treffen Endboss
+this.flyingObjects.forEach((bottle) => {
+  this.level.endboss.forEach((endboss) => {
+    if (bottle.isColliding(endboss)) {
+      endboss.hit();
+      this.statusBarEndboss.setPercentage(endboss.energy);
+    }
+  });
+});
+
+// Flaschen treffen Chicken
+this.flyingObjects.forEach((bottle) => {
+  this.level.enemies.forEach((enemy) => {
+    if (bottle.isColliding(enemy)) {
+       let index = this.level.enemies.indexOf(enemy);
+        this.level.enemies.splice(index, 1);
+    }
+  });
+});
+
+
+// wenn chicken Pepe berühren
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
       }
     });
 
-    //  Flasche trifft Endboss
-    this.throwableObjects.forEach((bottle) => {
-      this.level.endboss.forEach((endboss) => {
-        if (bottle.isColliding(endboss)) {
-          console.log("Endboss getroffen");
-          endboss.hit();
-          this.statusBarEndboss.setPercentage(endboss.energy);
-          if (endboss.isDead()) {
-          console.log("Endboss ist tot");
-        }
-        }
-      });
+    // wenn endboss  Pepe berühren
+    this.level.endboss.forEach((endboss) => {
+      if (this.character.isColliding(endboss)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+      }
     });
+
+
+    // Münzen einsammeln
+  this.level.coins.forEach((coin) => {
+  if (this.character.isColliding(coin)) {
+    this.collectedCoins++;
+    console.log("Coins:", this.collectedCoins);
+
+    if (this.collectedCoins === 5) {
+      this.character.energy += 20;
+      this.collectedCoins = 0;
+      this.statusBarCoins.setPercentage(0);
+    } else {
+      this.statusBarCoins.setPercentage(
+        this.collectedCoins * 20
+      );
+    }
+
+    let index = this.level.coins.indexOf(coin);
+    this.level.coins.splice(index, 1);
+  }
+});
   }
 
   draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
+
     this.ctx.translate(this.camera_x, 0);
+
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
+
     this.ctx.translate(-this.camera_x, 0);
+
     this.addToMap(this.statusBar);
     this.addToMap(this.statusBarEndboss);
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
+
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.flyingObjects);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.endboss);
     this.addToMap(this.character);
+
     this.ctx.translate(-this.camera_x, 0);
+
     requestAnimationFrame(() => this.draw());
   }
 
   addObjectsToMap(objects) {
-    objects.forEach((o) => {
-      this.addToMap(o);
-    });
-  }
-
-  collectingItems() {
-    this.numberItems += 5;
+    objects.forEach((o) => this.addToMap(o));
   }
 
   addToMap(mo) {
-    if (mo.otherDirection) {
-      this.flipImage(mo);
-    }
+    if (mo.otherDirection) this.flipImage(mo);
+
     mo.draw(this.ctx);
 
-    if (mo.otherDirection) {
-      this.flipImageBack(mo);
-    }
+    if (mo.otherDirection) this.flipImageBack(mo);
+
     mo.drawFrame(this.ctx);
   }
+
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
     this.ctx.scale(-1, 1);
     mo.x = mo.x * -1;
   }
+
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();

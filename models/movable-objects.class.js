@@ -5,8 +5,8 @@ class MovableObjects extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   lastHit = 0;
-  
 
+  //wenn aktuelles objekt überhalb des modens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -16,16 +16,14 @@ class MovableObjects extends DrawableObject {
     }, 1000 / 25);
   }
 
+  //
   isAboveGround() {
-    if (this instanceof ThrowableObjects) {  // throwableobjects should always fall
-      return true;
+    if (this instanceof ThrowableObjects) {
+      return this.y < 380;
     } else {
       return this.y < 180;
     }
   }
-
- 
-
 
   hit() {
     this.energy -= 5;
@@ -44,7 +42,6 @@ class MovableObjects extends DrawableObject {
 
   isDead() {
     return this.energy == 0;
-    
   }
 
   playAnimation(images) {
