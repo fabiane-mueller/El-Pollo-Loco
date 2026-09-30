@@ -65,3 +65,19 @@ window.addEventListener('keyup',(e) => {
 });
 
 
+document.getElementById("anleitungButton").addEventListener("click", () => {
+    document.getElementById("anleitungDialog").showModal();
+});
+
+document.getElementById("soundButton").addEventListener("click", () => {
+    document.getElementById("soundDialog").showModal();
+});
+
+document.getElementById("linkButton").addEventListener("click", () => {
+    document.getElementById("linkDialog").showModal();
+});
+
+
+document.getElementsByClassName("close-dialog").addEventListener("click", () => {
+    document.getElementById("dialog").close();
+});

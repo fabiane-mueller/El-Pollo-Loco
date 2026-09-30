@@ -65,3 +65,31 @@ button:hover {
   color: #000;
 }
 
+.menu-btns {
+  width: 70px;
+  height: 64px;
+  border: 0px;
+  border-radius: 15px;
+}
+
+.anleitung-btn {
+  background: url("img/icons/anleitung.png") no-repeat center center / contain;
+}
+.anleitung-btn:hover {
+  background: url("img/icons/anleitung-hr.png") no-repeat center center /
+    contain;
+}
+
+.sound-btn {
+  background: url("img/icons/sound.png") no-repeat center center / contain;
+}
+.sound-btn:hover {
+  background: url("img/icons/sound-hr.png") no-repeat center center / contain;
+}
+
+.link-btn {
+  background: url("img/icons/link.png") no-repeat center center / contain;
+}
+.link-btn:hover {
+  background: url("img/icons/link-hr.png") no-repeat center center / contain;
+}
