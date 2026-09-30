@@ -6,6 +6,7 @@ class MovableObjects extends DrawableObject {
   energy = 100;
   lastHit = 0;
 
+  //wenn aktuelles objekt überhalb des modens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -15,28 +16,14 @@ class MovableObjects extends DrawableObject {
     }, 1000 / 25);
   }
 
+  //
   isAboveGround() {
-    if (this instanceof ThrowableObjects) {  // throwableobjects should always fall
-      return true;
+    if (this instanceof ThrowableObjects) {
+      return this.y < 380;
     } else {
       return this.y < 180;
     }
   }
-
- 
-
-isColliding(mO) {
-  return (
-    this.x + this.offset.left + this.width - this.offset.right - this.offset.left >
-      mO.x + mO.offset.left &&
-    this.y + this.offset.top + this.height - this.offset.top - this.offset.bottom >
-      mO.y + mO.offset.top &&
-    this.x + this.offset.left <
-      mO.x + mO.offset.left + mO.width - mO.offset.left - mO.offset.right &&
-    this.y + this.offset.top <
-      mO.y + mO.offset.top + mO.height - mO.offset.top - mO.offset.bottom
-  );
-}
 
   hit() {
     this.energy -= 5;
@@ -55,7 +42,6 @@ isColliding(mO) {
 
   isDead() {
     return this.energy == 0;
-    
   }
 
   playAnimation(images) {

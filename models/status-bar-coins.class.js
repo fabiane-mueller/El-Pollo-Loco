@@ -1,4 +1,5 @@
 class StatusBarCoins extends StatusBar {
+  percentage = 0;
   IMAGES = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png",
@@ -6,16 +7,22 @@ class StatusBarCoins extends StatusBar {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/60.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png",
-  
   ];
 
   constructor() {
     super();
     this.loadImages(this.IMAGES);
     this.x = 460;
-    this.setPercentage(100);
+    this.setPercentage(0);
+
     this.y = 2;
   }
 
- 
+  setPercentage(percentage) {
+    this.percentage = percentage;
+    let path = this.IMAGES[this.resolveImageIndex()];
+    this.img = this.imageCache[path];
+
+   
+  }
 }

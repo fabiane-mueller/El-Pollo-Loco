@@ -6,19 +6,19 @@ console.log(endScreenRef);
 
 function init(){
   
-    endScreenRef.style.setProperty("top", "-720px");
-    endScreenRef.style.setProperty("z-index", "0");
-    start = document.getElementById("startScreen");
+    // endScreenRef.style.setProperty("top", "-720px");
+    // endScreenRef.style.setProperty("z-index", "0");
+    // start = document.getElementById("startScreen");
     canvas = document.getElementById("canvas");
     canvas.style.top = 0;
     world = new World(canvas, keyboard);
    
 }
 
-function gameOver(){
- endScreenRef.style.zIndex = 999;
- endScreenRef.style.top = 0;
-}
+// function gameOver(){
+//  endScreenRef.style.zIndex = 999;
+//  endScreenRef.style.top = 0;
+// }
 
    
 
@@ -63,3 +63,5 @@ window.addEventListener('keyup',(e) => {
     keyboard.D = false;
   }
 });
+
+
