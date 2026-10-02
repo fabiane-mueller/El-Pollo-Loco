@@ -30,20 +30,75 @@
     <title>El Pollo Loco</title>
 </head>
 
-<body>
-    
-    <div id="gameBox" class="game-box">
-        <div class="start-screen" id="startScreen">
-            <button onclick="init()">Spiel starten</button>
+<body onload="init()">
+    <section class="menu">
+        <button id="anleitungButton" class="menu-btns anleitung-btn"></button>
+        <button id="soundButton" class="menu-btns sound-btn"></button>
+        <button id="linkButton" class="menu-btns link-btn"></button>
+    </section><canvas width="720px" height="480px" id="canvas"></canvas>
+
+    <dialog id="anleitungDialog" class="dialogBox">
+        <h3>Spielanleitung</h3>
+        <button class="close-dialog" onclick="closeDialog('anleitungDialog');">X</button>
+        <div class="dialog-contentbox">
+            <p>Hilf Pepe dabei, sich durch das Level zu kämpfen und den Endboss zu besiegen! Sammle unterwegs Münzen und Flaschen, um deine Energie aufzuladen und Gegner mit geworfenen Flaschen zu besiegen. Aber pass auf: Berührst du einen Gegner oder den Endboss, verlierst du Energie.</p>
+            <div class="items-box">
+                <div class="item">
+                    <div class="item-img">
+                        <img src="img/icons/münze.png">
+                    </div>
+                    <div class="item-desc">
+                        <p><strong>5 gesammelte Münzen</strong>  = +20% Energie</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-img">
+                        <img src="img/icons/flasche.png">
+                    </div>
+                    <div class="item-desc">
+                        <p>max 5 Flaschen halten <br><strong> 3 besiegen den Endgegner</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <h4>Steuerung</h4>
+            <div class="steuerung-box">
+                <div class="steuerung-img">
+                    <img src="img/icons/bewegen.png">
+                </div>
+                <div class="steuerung-desc">
+                    <p>Bewegen</p>
+                </div>
+            </div>
+            <div class="steuerung-box">
+                <div class="steuerung-img">
+                    <img src="img/icons/springen.png">
+                </div>
+                <div class="steuerung-desc">
+                    <p>Springen</p>
+                </div>
+            </div>
+            <div class="steuerung-box">
+                <div class="steuerung-img">
+                    <img src="img/icons/werfen.png">
+                </div>
+                <div class="steuerung-desc">
+                    <p>Werfen</p>
+                </div>
+            </div>
         </div>
-        <canvas width="720px" height="480px" id="canvas"></canvas>
-        <div class="end-screen" id="endScreen">
-            <button onclick="window.location.reload();">neu laden</button>
-        </div>
-    </div>
+    </dialog>
 
+    <dialog id="soundDialog" class="dialogBox">
+        ...
+        <button class="close-dialog" onclick="closeDialog('soundDialog');">X</button>
+    </dialog>
 
-
+    <dialog id="linkDialog" class="dialogBox">
+        ...
+        <button class="close-dialog" onclick="closeDialog('linkDialog');">X</button>
+    </dialog>
 </body>
 
 </html>

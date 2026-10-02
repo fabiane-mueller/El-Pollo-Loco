@@ -44,6 +44,7 @@ class World {
       let bottle = this.throwableObjects.pop();
       this.statusBarBottles.setPercentage(
         this.statusBarBottles.percentage - 20,
+        
       );
       this.flyingObjects.push(bottle);
 
