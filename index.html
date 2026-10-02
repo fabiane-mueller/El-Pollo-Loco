@@ -30,21 +30,13 @@
     <title>El Pollo Loco</title>
 </head>
 
-<body>
+<body onload="init()">
     <section class="menu">
         <button id="anleitungButton" class="menu-btns anleitung-btn"></button>
         <button id="soundButton" class="menu-btns sound-btn"></button>
         <button id="linkButton" class="menu-btns link-btn"></button>
-    </section>
-    <div id="gameBox" class="game-box">
-        <div class="start-screen" id="startScreen">
-            <button onclick="init()">Spiel starten</button>
-        </div>
-        <canvas width="720px" height="480px" id="canvas"></canvas>
-        <div class="end-screen" id="endScreen">
-            <button onclick="window.location.reload();">neu laden</button>
-        </div>
-    </div>
+    </section><canvas width="720px" height="480px" id="canvas"></canvas>
+   
     <dialog id="anleitungDialog">
         <h3> Spielanleitung</h3>
         <button class="close-dialog">X</button>

@@ -10,6 +10,7 @@ class Character extends MovableObjects {
     bottom: 10,
     left: 10,
   };
+  isJumping = false;
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -53,6 +54,7 @@ class Character extends MovableObjects {
 
   constructor() {
     super();
+    
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -64,20 +66,26 @@ class Character extends MovableObjects {
   }
 
   animate() {
-     console.log(this.y);
+    console.log(this.x);
     setInterval(() => {
+      //wenn nach rechts gedrückt wird und x kleiner als das ende der leinwand ist
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
       }
-
+     // wenn links gedrückt wird und x größer als 0 ist
       if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
       }
-
+      // wenn die leertaste gedrückt ist und isaboveground false ist
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
+        console.log(this.x);
+        
+        if (!this.isJumping) {
+          this.jump();
+          this.isJumping = true;
+        }
       }
 
       this.world.camera_x = -this.x + 100;
@@ -91,7 +99,11 @@ class Character extends MovableObjects {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
-      } else {
+      } 
+      // else if (!this.isAboveGround()){
+      //   this.isJumping = false;
+      // }
+      else {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
         }
@@ -101,10 +113,7 @@ class Character extends MovableObjects {
 
   jump() {
     this.speedY = 30;
-    
   }
 
-  isFalling(){
-
-  }
+  isFalling() {}
 }
