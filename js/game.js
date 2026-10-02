@@ -11,6 +11,7 @@ function init(){
     // start = document.getElementById("startScreen");
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
+    startSleepingTimer();
     
    
 }
@@ -65,19 +66,40 @@ window.addEventListener('keyup',(e) => {
 });
 
 
-// document.getElementById("anleitungButton").addEventListener("click", () => {
-//     document.getElementById("anleitungDialog").showModal();
-// });
+document.getElementById("anleitungButton").addEventListener("click", () => {
+    document.getElementById("anleitungDialog").showModal();
+});
 
-// document.getElementById("soundButton").addEventListener("click", () => {
-//     document.getElementById("soundDialog").showModal();
-// });
+document.getElementById("soundButton").addEventListener("click", () => {
+    document.getElementById("soundDialog").showModal();
+});
 
-// document.getElementById("linkButton").addEventListener("click", () => {
-//     document.getElementById("linkDialog").showModal();
-// });
+document.getElementById("linkButton").addEventListener("click", () => {
+    document.getElementById("linkDialog").showModal();
+});
 
 
-// document.getElementsByClassName("close-dialog").addEventListener("click", () => {
-//     document.getElementById("dialog").close();
-// });
+
+
+
+function closeDialog(dialogId) {
+    document.getElementById(dialogId).close();
+}
+
+
+
+
+
+
+let sleeping = false;
+let sleepTimer;
+
+function startSleepingTimer() {
+    clearTimeout(sleepTimer);
+
+    sleeping = false;
+
+    sleepTimer = setTimeout(() => {
+        sleeping = true;
+    }, 5000);
+}

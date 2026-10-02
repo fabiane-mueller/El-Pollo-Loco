@@ -46,6 +46,15 @@ class Endboss extends MovableObjects {
     
   }
 
+ hit() {
+    this.energy -= 25;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
+
   animate() {
   setInterval(() => {
 
