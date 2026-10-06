@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-
+    <link rel="icon" type="image/x-icon" href="img/favicon.png">
+    <script src="js/interval.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-objects.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -35,20 +36,38 @@
         <button id="anleitungButton" class="menu-btns anleitung-btn"></button>
         <button id="soundButton" class="menu-btns sound-btn"></button>
         <button id="linkButton" class="menu-btns link-btn"></button>
-    </section><canvas width="720px" height="480px" id="canvas"></canvas>
+    </section>
+    <div class="rotate-screen"><img src="img/icons/rotate-phone.svg"></div>
+    <div class="game-box">
+
+        <div id="startScreen" class="start-screen">
+            <img src="img/el-pollo-loco-logo.png" alt="El Pollo Locco Logo">
+            <button onclick="startGame()">Spiel starten</button>
+        </div>
+        <canvas width="720px" height="480px" id="canvas"></canvas>
+        <div id="gameOverScreen" class="gameover d-none">
+            <div class="button-box"><button onclick="restartGame()">Spiel neu starten</button></div>
+        </div>
+        <div id="winningScreen" class="winning d-none">
+            <div class="button-box"><button onclick="restartGame()">Spiel neu starten</button></div>
+        </div>
+    </div>
+
 
     <dialog id="anleitungDialog" class="dialogBox">
         <h3>Spielanleitung</h3>
         <button class="close-dialog" onclick="closeDialog('anleitungDialog');">X</button>
         <div class="dialog-contentbox">
-            <p>Hilf Pepe dabei, sich durch das Level zu kämpfen und den Endboss zu besiegen! Sammle unterwegs Münzen und Flaschen, um deine Energie aufzuladen und Gegner mit geworfenen Flaschen zu besiegen. Aber pass auf: Berührst du einen Gegner oder den Endboss, verlierst du Energie.</p>
+            <p>Hilf Pepe dabei, sich durch das Level zu kämpfen und den Endboss zu besiegen! Sammle unterwegs Münzen und
+                Flaschen, um deine Energie aufzuladen und Gegner mit geworfenen Flaschen zu besiegen. Aber pass auf:
+                Berührst du einen Gegner oder den Endboss, verlierst du Energie.</p>
             <div class="items-box">
                 <div class="item">
                     <div class="item-img">
                         <img src="img/icons/münze.png">
                     </div>
                     <div class="item-desc">
-                        <p><strong>5 gesammelte Münzen</strong>  = +20% Energie</p>
+                        <p><strong>5 gesammelte Münzen</strong> = +20% Energie</p>
                     </div>
                 </div>
                 <div class="item">
@@ -60,8 +79,8 @@
                     </div>
                 </div>
             </div>
-            
-            
+
+
             <h4>Steuerung</h4>
             <div class="steuerung-box">
                 <div class="steuerung-img">

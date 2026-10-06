@@ -5,13 +5,20 @@ class MovableObjects extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   lastHit = 0;
+  isJumping = false;
 
   //wenn aktuelles objekt überhalb des Bodens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
   applyGravity() {
-    setInterval(() => {
+    setStoppableInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+        if (this.speedY < 0) {
+          if (this.world) {
+            this.world.isFalling = true;
+            console.log(this.world.isFalling);
+          }
+        }
       }
     }, 1000 / 25);
   }
@@ -39,7 +46,6 @@ class MovableObjects extends DrawableObject {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
-    
   }
 
   isDead() {
@@ -61,7 +67,6 @@ class MovableObjects extends DrawableObject {
   moveLeft() {
     this.x -= this.speed;
   }
-
 
   jump() {
     this.speedY = 30;
