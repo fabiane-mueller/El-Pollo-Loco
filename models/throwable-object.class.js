@@ -19,18 +19,28 @@ class ThrowableObjects extends MovableObjects {
     this.getRealFrame();
   }
 
-  throw() {
-    this.speedY = 30;
+throw(character) {
+  this.speedY = 30;
 
-    setInterval(() => {
-      this.x += 10;
-    }, 25);
+  // Startposition der Flasche festlegen
+  this.x = character.x + 50;
+  console.log(this.x);
+  
+  console.log("charcter.y" + character.y);
+  
+  this.y = character.y + 50;
+ console.log("this.y" + this.y);
 
-    this.applyGravity();
-  }
+  // Flasche nach rechts bewegen
+  setStoppableInterval(() => {
+    this.x += 10;
+  }, 1000 / 60);
+
+  this.applyGravity();
+}
 
   animate() {
-    setInterval(() => {
+    setStoppableInterval(() => {
       this.playAnimation(this.IMAGES_FLYING);
     }, 200);
   }

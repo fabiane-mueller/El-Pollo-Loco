@@ -10,7 +10,7 @@ class Character extends MovableObjects {
     bottom: 10,
     left: 10,
   };
-  isJumping = false;
+  
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -81,7 +81,7 @@ class Character extends MovableObjects {
 
   animate() {
     console.log(this.x);
-    setInterval(() => {
+    setStoppableInterval(() => {
       //Sleeptimer
       if (
               this.world.keyboard.RIGHT ||
@@ -115,9 +115,10 @@ class Character extends MovableObjects {
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-    setInterval(() => {
+    setStoppableInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+        setTimeout(gameOver, 1000);
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -136,7 +137,8 @@ class Character extends MovableObjects {
 
   jump() {
     this.speedY = 30;
-  }
+  } 
 
-  isFalling() {}
+ 
+  
 }

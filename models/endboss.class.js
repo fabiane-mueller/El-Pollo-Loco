@@ -47,7 +47,7 @@ class Endboss extends MovableObjects {
   }
 
  hit() {
-    this.energy -= 25;
+    this.energy -= 10;
     if (this.energy < 0) {
       this.energy = 0;
     } else {
@@ -56,10 +56,11 @@ class Endboss extends MovableObjects {
   }
 
   animate() {
-  setInterval(() => {
+  setStoppableInterval(() => {
 
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
+      setTimeout(winning, 1000);
 
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);

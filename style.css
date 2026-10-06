@@ -1,24 +1,25 @@
 /* chango-regular - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Chango';
+  font-family: "Chango";
   font-style: normal;
   font-weight: 400;
-  src: url('../fonts/chango-v29-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  src: url("../fonts/chango-v29-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-h1, h2, h3, h4{
-  font-family: 'Chango';
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Chango";
 }
 
-p{
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+p {
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   line-height: 1.5em;
 }
-
-
-
-
 
 body {
   display: flex;
@@ -29,7 +30,7 @@ body {
     cover;
   height: 100dvh;
   max-height: 100dvh;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .game-box {
@@ -43,8 +44,6 @@ canvas {
   box-shadow: 0px 6px 20px 5px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 6px 20px 5px rgba(0, 0, 0, 0.5);
 }
-
-
 
 button {
   background-color: #c76758;
@@ -63,7 +62,7 @@ button:hover {
   color: #000;
 }
 
-.menu{
+.menu {
   margin-bottom: 30px;
 }
 
@@ -72,7 +71,7 @@ button:hover {
   height: 64px;
   border: 0px;
   border-radius: 15px;
-  margin:0px 5px;
+  margin: 0px 5px;
 }
 
 .anleitung-btn {
@@ -97,68 +96,146 @@ button:hover {
   background: url("img/icons/link-hr.png") no-repeat center center / contain;
 }
 
-
-.dialogBox{
-  background:#e4cc68;
-  border:2px solid #fff;
-  border-radius:15px; 
-  color:#372710;
-  width:320px;
+.dialogBox {
+  background: #e4cc68;
+  border: 2px solid #fff;
+  border-radius: 15px;
+  color: #372710;
+  width: 320px;
   box-shadow: 0px 6px 20px 5px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 6px 20px 5px rgba(0, 0, 0, 0.5);
-  padding:20px;
+  padding: 20px;
   position: relative;
 }
 
-.steuerung-box{
+.steuerung-box {
   display: flex;
   align-items: center;
   padding-bottom: 10px;
-  }
-
-  .steuerung-box p{
-    margin:0;
-  }
-
-  .steuerung-img img{
-    width:50px
-  }
-
-  .steuerung-img{
-    margin-right: 15px;
-  }
-
-  h4{
-    margin-bottom: 15px;;
-  }
-
-  .items-box{
-    display: flex;
-    padding:0px 15px;
-
-  }
-
-  .item{
-    width:50%;
-    text-align: center;
-  }
-.item p{
-  margin-top:0px;
 }
 
-  .item-img img{width:80px;
-    height:100px;
-    object-fit: contain;
-  }
+.steuerung-box p {
+  margin: 0;
+}
 
-  .close-dialog{
-    position: absolute;
-    top: 10px;
-    right:10px;
-    background: transparent;
-  }
+.steuerung-img img {
+  width: 50px;
+}
 
-  dialog::backdrop {
+.steuerung-img {
+  margin-right: 15px;
+}
+
+h4 {
+  margin-bottom: 15px;
+}
+
+.items-box {
+  display: flex;
+  padding: 0px 15px;
+}
+
+.item {
+  width: 50%;
+  text-align: center;
+}
+.item p {
+  margin-top: 0px;
+}
+
+.item-img img {
+  width: 80px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.close-dialog {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+}
+
+dialog::backdrop {
   background: rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease-in-out;
+}
+
+.game-box {
+  position: relative;
+}
+
+.start-screen {
+  position: absolute;
+  top: 0px;
+  background-color: #fab10e;
+  width: 720px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: clamp(200px, 40%, 400px);
+    margin-bottom: 15px;
+  }
+}
+
+.d-none {
+  display: none;
+}
+
+.gameover {
+  position: absolute;
+  top: 0px;
+  width: 720px;
+  height: 480px;
+  align-items: center;
+  background: url(img/9_intro_outro_screens/game_over/game\ over!.png) no-repeat
+    center center / cover;
+}
+
+.button-box {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.winning {
+  position: absolute;
+  top: 0px;
+  width: 720px;
+  height: 480px;
+  align-items: center;
+  background: #fab10e url(img/9_intro_outro_screens/you-win.png) no-repeat
+    center center / 90%;
+
+  .button-box {
+    height: 90%;
+    align-items: flex-end;
+  }
+}
+
+.rotate-screen{
+    position: absolute;
+  top: 0px;
+  background-color: #fab10e;
+  width: 100dvw;
+  height: 100dvh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  display:none;
+  img {
+    width: clamp(200px, 40%, 400px);
+    margin-bottom: 15px;
+  }
+}
+
+
+@media only screen and (max-device-width: 480px) {
+    .rotate-screen{display: flex;}
 }
