@@ -17,7 +17,6 @@ applyGravity() {
       if (this.speedY < 0) {
         if (this.world) {
           this.world.isFalling = true;
-          console.log(this.world.isFalling);
         }
       }
     } else {

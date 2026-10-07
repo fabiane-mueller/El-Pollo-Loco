@@ -43,7 +43,6 @@ class Endboss extends MovableObjects {
     this.x = 2500;
     this.animate();
     this.getRealFrame();
-    
   }
 
  hit() {
@@ -57,18 +56,14 @@ class Endboss extends MovableObjects {
 
   animate() {
   setStoppableInterval(() => {
-
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
       setTimeout(winning, 1000);
-
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
-
     } else {
       this.playAnimation(this.IMAGES_WALKING);
     }
-
   }, 50);
 }
 }
