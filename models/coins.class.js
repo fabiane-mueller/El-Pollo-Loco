@@ -24,8 +24,4 @@ class Coins extends DrawableObject {
     this.x = currentCoinPosition + 200;
     currentCoinPosition = this.x;
   }
-
-
-
-  
 }

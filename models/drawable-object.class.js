@@ -27,11 +27,10 @@ class DrawableObject {
   getRealFrame() {
     setStoppableInterval(() => {
       this.rX = this.x + this.offset.left;
-    this.rY = this.y + this.offset.top;
-    this.rW = this.width - this.offset.left - this.offset.right;
-    this.rH = this.height - this.offset.top - this.offset.bottom;
+      this.rY = this.y + this.offset.top;
+      this.rW = this.width - this.offset.left - this.offset.right;
+      this.rH = this.height - this.offset.top - this.offset.bottom;
     }, 1000 / 60);
-    
   }
 
   isColliding(mO) {
@@ -48,18 +47,10 @@ class DrawableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Coins || this instanceof Endboss || this instanceof Bottles) 
-       {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.rX, this.rY, this.rW, this.rH);
-      ctx.stroke();
+    if (this.checkInstances()) {
+      this.HelpFrame(ctx);
     }
   }
-
-
-
 
   loadImages(arr) {
     arr.forEach((path) => {
@@ -67,5 +58,23 @@ class DrawableObject {
       img.src = path;
       this.imageCache[path] = img;
     });
+  }
+
+  checkInstances() {
+    return (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Coins ||
+      this instanceof Endboss ||
+      this instanceof Bottles
+    );
+  }
+
+  HelpFrame(ctx) {
+    ctx.beginPath();
+    ctx.lineWidth = "5";
+    ctx.strokeStyle = "blue";
+    ctx.rect(this.rX, this.rY, this.rW, this.rH);
+    ctx.stroke();
   }
 }
