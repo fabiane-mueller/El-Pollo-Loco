@@ -107,6 +107,8 @@ this.level.enemies.forEach((enemy) => {
 
     setTimeout(() => {
       let index = this.level.enemies.indexOf(enemy);
+      console.log("index"+index);
+      
       this.level.enemies.splice(index, 1);
     }, 500);
   }
@@ -114,6 +116,15 @@ this.level.enemies.forEach((enemy) => {
     // wenn endboss  Pepe berühren
     this.level.endboss.forEach((endboss) => {
       if (this.character.isColliding(endboss)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+      }
+    });
+
+     // wenn chicken  Pepe berühren
+    this.level.enemies.forEach((enemy) => {
+      console.log("Pepe Y:", this.character.y, "Chicken Y:", enemy.y);
+      if (this.character.isColliding(enemy) && !this.isFalling) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
       }

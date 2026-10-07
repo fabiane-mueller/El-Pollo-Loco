@@ -20,7 +20,7 @@ function startGame() {
 
 function gameOver() {
   gameOverScreenRef.classList.remove("d-none");
-  stopGame();
+  // stopGame();
 }
 
 function winning() {
