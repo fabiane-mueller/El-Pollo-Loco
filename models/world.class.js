@@ -30,7 +30,7 @@ class World {
   }
 
   run() {
-    setStoppableInterval(() => {
+    setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
       this.checkFlyingObjects();
@@ -98,9 +98,13 @@ this.flyingObjects.forEach((bottle) => {
    
 // wenn Pepe auf Chicken springt
 this.level.enemies.forEach((enemy) => {
-  if (this.character.isColliding(enemy) && this.isFalling) {
-    console.log("Pepe berührt Chicken von oben");
+  if (
+    this.character.isColliding(enemy) &&
+  this.character.speedY < 0 &&
+  !enemy.isDead()
+  ) {
     enemy.energy = 0;
+
     setTimeout(() => {
       let index = this.level.enemies.indexOf(enemy);
       this.level.enemies.splice(index, 1);

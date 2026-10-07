@@ -9,7 +9,7 @@ class MovableObjects extends DrawableObject {
 
   //wenn aktuelles objekt überhalb des Bodens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
   applyGravity() {
-    setStoppableInterval(() => {
+    setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;

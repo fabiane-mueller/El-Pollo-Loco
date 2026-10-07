@@ -81,7 +81,7 @@ class Character extends MovableObjects {
 
   animate() {
     console.log(this.x);
-    setStoppableInterval(() => {
+    setInterval(() => {
       //Sleeptimer
       if (
               this.world.keyboard.RIGHT ||
@@ -115,7 +115,7 @@ class Character extends MovableObjects {
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-    setStoppableInterval(() => {
+    setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(gameOver, 1000);

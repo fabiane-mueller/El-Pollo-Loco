@@ -32,7 +32,7 @@ throw(character) {
  console.log("this.y" + this.y);
 
   // Flasche nach rechts bewegen
-  setStoppableInterval(() => {
+  setInterval(() => {
     this.x += 10;
   }, 1000 / 60);
 
@@ -40,7 +40,7 @@ throw(character) {
 }
 
   animate() {
-    setStoppableInterval(() => {
+    setInterval(() => {
       this.playAnimation(this.IMAGES_FLYING);
     }, 200);
   }
