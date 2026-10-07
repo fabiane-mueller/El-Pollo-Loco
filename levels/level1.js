@@ -7,7 +7,7 @@ function loadBackgroundGroup() {
   new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -720),
   new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -720)
 );
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 7; index++) {
     let x = index * 720;
 
 if (index == 0 || index == 2 || index == 4) {

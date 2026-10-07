@@ -12,6 +12,7 @@ function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   startSleepingTimer();
+    bindBtnsPressEvents();
 }
 
 function startGame() {
@@ -20,7 +21,11 @@ function startGame() {
 
 function gameOver() {
   gameOverScreenRef.classList.remove("d-none");
-  // stopGame();
+  stopGame();
+}
+
+function stopGame(){
+  intervalIds.forEach(clearInterval);
 }
 
 function winning() {
@@ -31,6 +36,49 @@ function restartGame() {
   gameOverScreenRef.style.display = "none";
   winningScreenRef.style.display = "none";
   world = new World(canvas, keyboard);
+}
+
+
+function bindBtnsPressEvents() {
+  document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = true;
+  });
+
+  document.getElementById("btnLeft").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.LEFT = false;
+  });
+
+  document.getElementById("btnRight").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = true;
+  });
+
+  document.getElementById("btnRight").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = false;
+  });
+
+  document.getElementById("btnJump").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = true;
+  });
+
+  document.getElementById("btnJump").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.SPACE = false;
+  });
+
+  document.getElementById("btnThrow").addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keyboard.D = true;
+  });
+
+  document.getElementById("btnThrow").addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keyboard.D = false;
+  });
 }
 
 

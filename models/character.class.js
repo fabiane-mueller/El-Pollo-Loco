@@ -10,7 +10,6 @@ class Character extends MovableObjects {
     bottom: 10,
     left: 10,
   };
-  
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -64,6 +63,7 @@ class Character extends MovableObjects {
 
   world;
   currentImages = 0;
+  deathAnimationIndex = 0;
 
   constructor() {
     super();
@@ -84,13 +84,13 @@ class Character extends MovableObjects {
     setStoppableInterval(() => {
       //Sleeptimer
       if (
-              this.world.keyboard.RIGHT ||
-              this.world.keyboard.LEFT ||
-              this.world.keyboard.SPACE ||
-              this.world.keyboard.D
-          ) {
-              startSleepingTimer();
-          }
+        this.world.keyboard.RIGHT ||
+        this.world.keyboard.LEFT ||
+        this.world.keyboard.SPACE ||
+        this.world.keyboard.D
+      ) {
+        startSleepingTimer();
+      }
 
       //wenn nach rechts gedrückt wird und x kleiner als das ende der leinwand ist
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -104,8 +104,6 @@ class Character extends MovableObjects {
       }
       // wenn die leertaste gedrückt ist und isaboveground false ist
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-       
-
         if (!this.isJumping) {
           this.jump();
           this.isJumping = true;
@@ -117,8 +115,15 @@ class Character extends MovableObjects {
 
     setStoppableInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-        setTimeout(gameOver, 1000);
+        if (this.deathAnimationIndex < this.IMAGES_DEAD.length) {
+          this.img =
+            this.imageCache[this.IMAGES_DEAD[this.deathAnimationIndex]];
+          this.deathAnimationIndex++;
+
+          if (this.deathAnimationIndex === 1) {
+            setTimeout(gameOver, 1000);
+          }
+        }
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -137,8 +142,5 @@ class Character extends MovableObjects {
 
   jump() {
     this.speedY = 30;
-  } 
-
- 
-  
+  }
 }
