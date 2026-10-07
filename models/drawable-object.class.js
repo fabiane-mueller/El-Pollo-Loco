@@ -25,7 +25,7 @@ class DrawableObject {
   }
 
   getRealFrame() {
-    setInterval(() => {
+    setStoppableInterval(() => {
       this.rX = this.x + this.offset.left;
     this.rY = this.y + this.offset.top;
     this.rW = this.width - this.offset.left - this.offset.right;

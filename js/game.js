@@ -21,7 +21,11 @@ function startGame() {
 
 function gameOver() {
   gameOverScreenRef.classList.remove("d-none");
-  // stopGame();
+  stopGame();
+}
+
+function stopGame(){
+  intervalIds.forEach(clearInterval);
 }
 
 function winning() {

@@ -9,7 +9,7 @@ class MovableObjects extends DrawableObject {
 
   //wenn aktuelles objekt überhalb des Bodens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
 applyGravity() {
-  setInterval(() => {
+  setStoppableInterval(() => {
     if (this.isAboveGround() || this.speedY > 0) {
       this.y -= this.speedY;
       this.speedY -= this.acceleration;
@@ -55,13 +55,17 @@ applyGravity() {
     return this.energy == 0;
   }
 
-  playAnimation(images) {
-    let i = this.currentImages % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImages++;
+playAnimation(images) {
+  let i = this.currentImages % images.length;
+
+  if (images === this.IMAGES_DEAD && this.currentImages >= images.length) {
+    i = images.length - 1;
   }
 
+  let path = images[i];
+  this.img = this.imageCache[path];
+  this.currentImages++;
+}
   // die x-achse des objekts wird immer + die speed erhöht
   moveRight() {
     this.x += this.speed;

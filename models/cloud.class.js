@@ -13,7 +13,7 @@ class Cloud extends MovableObjects{
 
 
    animate(){
-      setInterval(() => {
+      setStoppableInterval(() => {
          this.x -= 0.15;
       }, 1000 / 60);
       }
