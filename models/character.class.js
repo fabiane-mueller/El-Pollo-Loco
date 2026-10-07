@@ -67,63 +67,98 @@ class Character extends MovableObjects {
 
   constructor() {
     super();
-
-    this.loadImage("img/2_character_pepe/2_walk/W-21.png");
-    this.loadImages(this.IMAGES_WALKING);
-    this.loadImages(this.IMAGES_JUMPING);
-    this.loadImages(this.IMAGES_HURT);
-    this.loadImages(this.IMAGES_DEAD);
-    this.loadImages(this.IMAGES_SLEEPING);
+    this.loadImagesGroup();
     this.applyGravity();
     this.animate();
     this.getRealFrame();
   }
 
   animate() {
-    console.log(this.x);
+    this.moveIntervall();
+    this.setImagesIntervall();
+  }
+
+  jump() {
+    this.speedY = 30;
+  }
+  // lädt die jeweiligen Bildergruppen
+  loadImagesGroup() {
+    this.loadImage("img/2_character_pepe/2_walk/W-21.png");
+    this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_SLEEPING);
+  }
+
+  // wenn eine Taste gedrückt wird, startet der SleepTimer neu
+  checkSleepig() {
+    if (
+      this.world.keyboard.RIGHT ||
+      this.world.keyboard.LEFT ||
+      this.world.keyboard.SPACE ||
+      this.world.keyboard.D
+    ) {
+      startSleepingTimer();
+    }
+  }
+
+  //wenn nach rechts gedrückt wird und x kleiner als das ende der leinwand ist
+  checkRightKey() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.moveRight();
+      this.otherDirection = false;
+    }
+  }
+  // wenn links gedrückt wird und x größer als 0 ist
+  checkLeftKey() {
+    if (this.world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      this.otherDirection = true;
+    }
+  }
+  // wenn die leertaste gedrückt ist und isaboveground false ist
+  checkSpaceKey() {
+    if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+      if (!this.isJumping) {
+        this.jump();
+        this.isJumping = true;
+      }
+    }
+  }
+  // die Bilder, wenn Pepe tot ist, wird nur einmal abgespielt und das letzte Bild bleibt stehen
+  deathAnimation() {
+    if (this.deathAnimationIndex < this.IMAGES_DEAD.length) {
+      this.img = this.imageCache[this.IMAGES_DEAD[this.deathAnimationIndex]];
+      this.deathAnimationIndex++;
+      if (this.deathAnimationIndex === 1) {
+        setTimeout(gameOver, 1000);
+      }
+    }
+  }
+
+  // wenn rechts oder links gedrückt und Pepe nicht stringt, werden die Walking-Bilder angespielt
+  moveRightLeftAnimation() {
+    this.isJumping = false;
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+  }
+
+  moveIntervall() {
     setStoppableInterval(() => {
-      //Sleeptimer
-      if (
-        this.world.keyboard.RIGHT ||
-        this.world.keyboard.LEFT ||
-        this.world.keyboard.SPACE ||
-        this.world.keyboard.D
-      ) {
-        startSleepingTimer();
-      }
-
-      //wenn nach rechts gedrückt wird und x kleiner als das ende der leinwand ist
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.otherDirection = false;
-      }
-      // wenn links gedrückt wird und x größer als 0 ist
-      if (this.world.keyboard.LEFT && this.x > 0) {
-        this.moveLeft();
-        this.otherDirection = true;
-      }
-      // wenn die leertaste gedrückt ist und isaboveground false ist
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        if (!this.isJumping) {
-          this.jump();
-          this.isJumping = true;
-        }
-      }
-
+      this.checkSleepig();
+      this.checkRightKey();
+      this.checkLeftKey();
+      this.checkSpaceKey();
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
+  }
 
+  setImagesIntervall() {
     setStoppableInterval(() => {
       if (this.isDead()) {
-        if (this.deathAnimationIndex < this.IMAGES_DEAD.length) {
-          this.img =
-            this.imageCache[this.IMAGES_DEAD[this.deathAnimationIndex]];
-          this.deathAnimationIndex++;
-
-          if (this.deathAnimationIndex === 1) {
-            setTimeout(gameOver, 1000);
-          }
-        }
+        this.deathAnimation();
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -131,16 +166,8 @@ class Character extends MovableObjects {
       } else if (sleeping) {
         this.playAnimation(this.IMAGES_SLEEPING);
       } else {
-        this.isJumping = false;
-
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          this.playAnimation(this.IMAGES_WALKING);
-        }
+        this.moveRightLeftAnimation();
       }
     }, 50);
-  }
-
-  jump() {
-    this.speedY = 30;
   }
 }
