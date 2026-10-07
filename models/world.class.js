@@ -98,11 +98,12 @@ this.flyingObjects.forEach((bottle) => {
    
 // wenn Pepe auf Chicken springt
 this.level.enemies.forEach((enemy) => {
-  if (
-    this.character.isColliding(enemy) &&
-  this.character.speedY < 0 &&
+if (
+  this.character.isColliding(enemy) &&
+  this.character.rY + this.character.rH < enemy.rY + 20 &&
   !enemy.isDead()
-  ) {
+)  {
+  console.log("Chicken getroffen", this.character.speedY);
     enemy.energy = 0;
 
     setTimeout(() => {
@@ -117,7 +118,10 @@ this.level.enemies.forEach((enemy) => {
     this.level.endboss.forEach((endboss) => {
       if (this.character.isColliding(endboss)) {
         this.character.hit();
+        console.log("energie nach endbosscolli:" + this.character.energy);
+        
         this.statusBar.setPercentage(this.character.energy);
+        console.log("statusbar:" + this.statusBar.setPercentage);
       }
     });
 
@@ -126,7 +130,9 @@ this.level.enemies.forEach((enemy) => {
       console.log("Pepe Y:", this.character.y, "Chicken Y:", enemy.y);
       if (this.character.isColliding(enemy) && !this.isFalling) {
         this.character.hit();
+        console.log("energie nach hühnencolli:" + this.character.energy);
         this.statusBar.setPercentage(this.character.energy);
+
       }
     });
 

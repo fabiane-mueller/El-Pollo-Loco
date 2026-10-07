@@ -32,92 +32,161 @@
 </head>
 
 <body onload="init()">
-    <section class="menu">
-        <button id="anleitungButton" class="menu-btns anleitung-btn"></button>
-        <button id="soundButton" class="menu-btns sound-btn"></button>
-        <button id="linkButton" class="menu-btns link-btn"></button>
-    </section>
-    <div class="rotate-screen"><img src="img/icons/rotate-phone.svg"></div>
-    <div class="game-box">
+    <div class="wrapper">
+        <section class="menu">
+            <button id="anleitungButton" class="menu-btns anleitung-btn"></button>
+            <button id="soundButton" class="menu-btns sound-btn"></button>
+            <button id="linkButton" class="menu-btns link-btn"></button>
+        </section>
+        <div class="rotate-screen"><img src="img/icons/rotate-phone.svg"></div>
+        <div class="game-box">
 
-        <div id="startScreen" class="start-screen">
-            <img src="img/el-pollo-loco-logo.png" alt="El Pollo Locco Logo">
-            <button onclick="startGame()">Spiel starten</button>
+            <div id="startScreen" class="start-screen">
+                <img src="img/el-pollo-loco-logo.png" alt="El Pollo Locco Logo">
+                <button onclick="startGame()">Spiel starten</button>
+            </div>
+            <canvas width="720px" height="480px" id="canvas"></canvas>
+            <div id="gameOverScreen" class="gameover d-none">
+                <div class="button-box"><button onclick="restartGame()">Spiel neu starten</button></div>
+            </div>
+            <div id="winningScreen" class="winning d-none">
+                <div class="button-box"><button onclick="restartGame()">Spiel neu starten</button></div>
+            </div>
+            <section class="mobile-controls">
+                <div class="control-left">
+                    <button id="btnLeft"><img src="img/icons/left-btn.png"></button>
+                    <button id="btnRight"><img src="img/icons/right-btn.png"></button>
+                </div>
+                <div class="control-right">
+                    <button id="btnJump"><img src="img/icons/top-btn.png"></button>
+                    <button id="btnThrow"><img src="img/icons/werfen-btn.png"></button>
+                    </ul>
+                </div>
+            </section>
         </div>
-        <canvas width="720px" height="480px" id="canvas"></canvas>
-        <div id="gameOverScreen" class="gameover d-none">
-            <div class="button-box"><button onclick="restartGame()">Spiel neu starten</button></div>
-        </div>
-        <div id="winningScreen" class="winning d-none">
-            <div class="button-box"><button onclick="restartGame()">Spiel neu starten</button></div>
-        </div>
+        <dialog id="anleitungDialog" class="dialogBox">
+            <h3>Spielanleitung</h3>
+            <button class="close-dialog" onclick="closeDialog('anleitungDialog');">X</button>
+            <div class="dialog-contentbox">
+                <p>Hilf Pepe dabei, sich durch das Level zu kämpfen und den Endboss zu besiegen! Sammle unterwegs Münzen
+                    und
+                    Flaschen, um deine Energie aufzuladen und Gegner mit geworfenen Flaschen zu besiegen. Aber pass auf:
+                    Berührst du einen Gegner oder den Endboss, verlierst du Energie.</p>
+                <div class="items-box">
+                    <div class="item">
+                        <div class="item-img">
+                            <img src="img/icons/münze.png">
+                        </div>
+                        <div class="item-desc">
+                            <p><strong>5 gesammelte Münzen</strong> = +20% Energie</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-img">
+                            <img src="img/icons/flasche.png">
+                        </div>
+                        <div class="item-desc">
+                            <p>max 5 Flaschen halten <br><strong> 3 besiegen den Endgegner</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h4>Steuerung</h4>
+                <div class="steuerung-box">
+                    <div class="steuerung-img">
+                        <img src="img/icons/bewegen.png">
+                    </div>
+                    <div class="steuerung-desc">
+                        <p>Bewegen</p>
+                    </div>
+                </div>
+                <div class="steuerung-box">
+                    <div class="steuerung-img">
+                        <img src="img/icons/springen.png">
+                    </div>
+                    <div class="steuerung-desc">
+                        <p>Springen</p>
+                    </div>
+                </div>
+                <div class="steuerung-box">
+                    <div class="steuerung-img">
+                        <img src="img/icons/werfen.png">
+                    </div>
+                    <div class="steuerung-desc">
+                        <p>Werfen</p>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+        <dialog id="soundDialog" class="dialogBox">
+            ...
+            <button class="close-dialog" onclick="closeDialog('soundDialog');">X</button>
+        </dialog>
+        <dialog id="linkDialog" class="dialogBox">
+            <h1>Impressum</h1>
+
+            <h2>Angaben gemäß § 5 TMG</h2>
+
+            <p>
+                Fabiane Müller<br>
+                Rödger Str. 31a<br>
+                57074 Siegen<br>
+                Deutschland
+            </p>
+
+            <h2>Kontakt</h2>
+
+            <p>
+                E-Mail:
+                <a href="mailto:fabianemueller90@googlemail.com">
+                    fabianemueller90@googlemail.com
+                </a>
+            </p>
+
+            <h2>Verantwortlich für den Inhalt</h2>
+
+            <p>
+                Fabiane Müller<br>
+                Rödger Str. 31a<br>
+                57074 Siegen<br>
+                Deutschland
+            </p>
+
+            <h2>Hinweis</h2>
+
+            <p>
+                Diese Website wurde im Rahmen einer Ausbildung bzw. zu Lern- und
+                Demonstrationszwecken erstellt. „El Pollo Loco“ ist ein Projekt der
+                Developer Akademie GmbH.
+            </p>
+
+            <p>
+                Die auf dieser Website verwendeten Inhalte, Grafiken und Medien dienen
+                ausschließlich der Darstellung des Projekts und werden nicht kommerziell
+                genutzt.
+            </p>
+
+            <h2>Haftung für Inhalte</h2>
+
+            <p>
+                Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt.
+                Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann
+                jedoch keine Gewähr übernommen werden.
+            </p>
+
+            <h2>Haftung für Links</h2>
+
+            <p>
+                Diese Website kann Links zu externen Websites Dritter enthalten. Auf deren
+                Inhalte habe ich keinen Einfluss und übernehme daher keine Verantwortung
+                für deren Inhalte.
+            </p>
+            <button class="close-dialog" onclick="closeDialog('linkDialog');">X</button>
+        </dialog>
+
+
     </div>
-
-
-    <dialog id="anleitungDialog" class="dialogBox">
-        <h3>Spielanleitung</h3>
-        <button class="close-dialog" onclick="closeDialog('anleitungDialog');">X</button>
-        <div class="dialog-contentbox">
-            <p>Hilf Pepe dabei, sich durch das Level zu kämpfen und den Endboss zu besiegen! Sammle unterwegs Münzen und
-                Flaschen, um deine Energie aufzuladen und Gegner mit geworfenen Flaschen zu besiegen. Aber pass auf:
-                Berührst du einen Gegner oder den Endboss, verlierst du Energie.</p>
-            <div class="items-box">
-                <div class="item">
-                    <div class="item-img">
-                        <img src="img/icons/münze.png">
-                    </div>
-                    <div class="item-desc">
-                        <p><strong>5 gesammelte Münzen</strong> = +20% Energie</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="item-img">
-                        <img src="img/icons/flasche.png">
-                    </div>
-                    <div class="item-desc">
-                        <p>max 5 Flaschen halten <br><strong> 3 besiegen den Endgegner</strong></p>
-                    </div>
-                </div>
-            </div>
-
-
-            <h4>Steuerung</h4>
-            <div class="steuerung-box">
-                <div class="steuerung-img">
-                    <img src="img/icons/bewegen.png">
-                </div>
-                <div class="steuerung-desc">
-                    <p>Bewegen</p>
-                </div>
-            </div>
-            <div class="steuerung-box">
-                <div class="steuerung-img">
-                    <img src="img/icons/springen.png">
-                </div>
-                <div class="steuerung-desc">
-                    <p>Springen</p>
-                </div>
-            </div>
-            <div class="steuerung-box">
-                <div class="steuerung-img">
-                    <img src="img/icons/werfen.png">
-                </div>
-                <div class="steuerung-desc">
-                    <p>Werfen</p>
-                </div>
-            </div>
-        </div>
-    </dialog>
-
-    <dialog id="soundDialog" class="dialogBox">
-        ...
-        <button class="close-dialog" onclick="closeDialog('soundDialog');">X</button>
-    </dialog>
-
-    <dialog id="linkDialog" class="dialogBox">
-        ...
-        <button class="close-dialog" onclick="closeDialog('linkDialog');">X</button>
-    </dialog>
 </body>
 
 </html>

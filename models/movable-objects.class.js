@@ -8,20 +8,23 @@ class MovableObjects extends DrawableObject {
   isJumping = false;
 
   //wenn aktuelles objekt überhalb des Bodens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
-  applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-        if (this.speedY < 0) {
-          if (this.world) {
-            this.world.isFalling = true;
-            console.log(this.world.isFalling);
-          }
+applyGravity() {
+  setInterval(() => {
+    if (this.isAboveGround() || this.speedY > 0) {
+      this.y -= this.speedY;
+      this.speedY -= this.acceleration;
+
+      if (this.speedY < 0) {
+        if (this.world) {
+          this.world.isFalling = true;
+          console.log(this.world.isFalling);
         }
       }
-    }, 1000 / 25);
-  }
+    } else {
+      this.speedY = 0;
+    }
+  }, 1000 / 25);
+}
 
   //wenn objekt eine instanz von throableobjects ist prüfe ob y kleiner als 380 ist, sonst prüfe ob y kleiner als 180 ist
   isAboveGround() {
