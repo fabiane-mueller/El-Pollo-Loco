@@ -20,20 +20,17 @@ class ThrowableObjects extends MovableObjects {
   }
 
 throw(character) {
-  this.speedY = 30;
+  this.speedY = 10;
 
   // Startposition der Flasche festlegen
   this.x = character.x + 50;
-  console.log(this.x);
   
-  console.log("charcter.y" + character.y);
   
   this.y = character.y + 50;
- console.log("this.y" + this.y);
 
   // Flasche nach rechts bewegen
   setStoppableInterval(() => {
-    this.x += 10;
+    this.x += 7;
   }, 1000 / 60);
 
   this.applyGravity();

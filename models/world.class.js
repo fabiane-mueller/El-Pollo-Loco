@@ -12,14 +12,13 @@ class World {
   collectedCoins = 0;
   throwableObjects = [];
   flyingObjects = [];
-  
+
   isFalling = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-
     this.setWorld();
     this.draw();
     this.run();
@@ -30,53 +29,89 @@ class World {
   }
 
   run() {
-    setStoppableInterval(() => {
-      this.checkCollisions();
-      this.checkThrowObjects();
-      this.checkFlyingObjects();
-    }, 200);
+    this.checkCollisionChickenIntervall();
+    this.checkCollisionEndbossIntervall();
+    this.checkCollisionBottlesIntervall();
+    this.checkCollisionCoinsIntervall();
+    this.checkBottleCollisionWithEnemiesIntervall();
+    this.checkBottleCollisionWithEndbossIntervall();
+    this.checkThrowObjectsIntervall();
+    this.checkFlyingObjectsIntervall();
   }
 
-checkThrowObjects() {
   // Prüfen, ob D gedrückt ist UND ob Pepe mindestens eine Flasche hat
-  if (this.keyboard.D && this.throwableObjects.length > 0) {
-
-    // Die letzte Flasche aus dem Inventar nehmen
-    // pop() entfernt die Flasche aus throwableObjects
-    let bottle = this.throwableObjects.pop();
-    console.log("Flasche geworfen:", bottle);
-console.log("Inventar:", this.throwableObjects.length);
-
-    // Die Flaschenanzeige um 20 % reduzieren
-    this.statusBarBottles.setPercentage(
-      this.statusBarBottles.percentage - 20,
-    );
-
-    // Die Flasche zu den fliegenden Flaschen hinzufügen
-    this.flyingObjects.push(bottle);
-
-    // Die Wurfbewegung der Flasche starten
-    bottle.throw(this.character);
-  }
-}
-
-checkFlyingObjects() {
-  // jede Flasche, die fliegt überprüfen
-  this.flyingObjects.forEach((bottle) => {
-    // ob sie nicht mehr auf dem Boden ist
-    if (!bottle.isAboveGround()) {
-      let index = this.flyingObjects.indexOf(bottle);
-      // Die Flasche aus dem Array der fliegenden Flaschen entfernen
-      this.flyingObjects.splice(index, 1);
+  checkThrowObjects() {
+    if (this.keyboard.D && this.throwableObjects.length > 0) {
+      let bottle = this.throwableObjects.pop();
+      this.statusBarBottles.setPercentage(
+        this.statusBarBottles.percentage - 20,
+      );
+      this.flyingObjects.push(bottle);
+      bottle.throw(this.character);
     }
-  });
-}
+  }
 
-  checkCollisions() {
+  // jede Flasche, die fliegt überprüfen, ob sie nicht mehr auf dem Boden ist. Die Flasche aus dem Array der fliegenden Flaschen entfernen
+  checkFlyingObjects() {
+    this.flyingObjects.forEach((bottle) => {
+      if (!bottle.isAboveGround()) {
+        let index = this.flyingObjects.indexOf(bottle);
+        this.flyingObjects.splice(index, 1);
+      }
+    });
+  }
+
+  checkCollisionWithEnemies() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.isCharacterJumpingOnEnemy(enemy)) {
+        this.enemyIsHeadjumpedDead(enemy);
+      } else if (this.isCharacterIsCollidingEnemy(enemy)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+      }
+    });
+  }
+
+  checkCollisionWithEndboss() {
+    this.level.endboss.forEach((endboss) => {
+      if (this.character.isColliding(endboss)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+      }
+    });
+  }
+
+  checkCollisionWithBottles() {
     this.collectedBottles();
-  
+  }
 
-    // Flaschen treffen Endboss
+  checkCollisionWithCoins() {
+    this.level.coins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        this.collectedCoins++;
+        if (this.collectedCoins === 5) {
+          this.fiveCoins();
+        } else {
+          this.statusBarCoins.setPercentage(this.collectedCoins * 20);
+        }
+
+        let index = this.level.coins.indexOf(coin);
+        this.level.coins.splice(index, 1);
+      }
+    });
+  }
+
+  checkBottleCollisionWithEnemies() {
+    this.flyingObjects.forEach((bottle) => {
+      this.level.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy)) {
+          enemy.energy = 0;
+        }
+      });
+    });
+  }
+
+  checkBottleCollisionWithEndboss() {
     this.flyingObjects.forEach((bottle) => {
       this.level.endboss.forEach((endboss) => {
         if (bottle.isColliding(endboss)) {
@@ -84,79 +119,6 @@ checkFlyingObjects() {
           this.statusBarEndboss.setPercentage(endboss.energy);
         }
       });
-    });
-
-    // Flaschen treffen Chicken
-this.flyingObjects.forEach((bottle) => {
-  this.level.enemies.forEach((enemy) => {
-    if (bottle.isColliding(enemy)) {
-      enemy.energy = 0;
-    }
-  });
-});
-
-   
-// wenn Pepe auf Chicken springt
-this.level.enemies.forEach((enemy) => {
-if (
-  this.character.isColliding(enemy) &&
-  this.character.rY + this.character.rH < enemy.rY + 20 &&
-  !enemy.isDead()
-)  {
-  console.log("Chicken getroffen", this.character.speedY);
-    enemy.energy = 0;
-
-    setTimeout(() => {
-      let index = this.level.enemies.indexOf(enemy);
-      console.log("index"+index);
-      
-      this.level.enemies.splice(index, 1);
-    }, 500);
-  }
-});
-    // wenn endboss  Pepe berühren
-    this.level.endboss.forEach((endboss) => {
-      if (this.character.isColliding(endboss)) {
-        this.character.hit();
-        console.log("energie nach endbosscolli:" + this.character.energy);
-        
-        this.statusBar.setPercentage(this.character.energy);
-        console.log("statusbar:" + this.statusBar.setPercentage);
-      }
-    });
-
-     // wenn chicken  Pepe berühren
-    this.level.enemies.forEach((enemy) => {
-      console.log("Pepe Y:", this.character.y, "Chicken Y:", enemy.y);
-      if (this.character.isColliding(enemy) && !this.isFalling) {
-        this.character.hit();
-        console.log("energie nach hühnencolli:" + this.character.energy);
-        this.statusBar.setPercentage(this.character.energy);
-
-      }
-    });
-
-    // Münzen einsammeln
-    this.level.coins.forEach((coin) => {
-      if (this.character.isColliding(coin)) {
-        this.collectedCoins++;
-        if (this.collectedCoins === 5) {
-          this.statusBarCoins.setPercentage(100);
-          setTimeout(() => {
-            this.character.energy += 20;
-            if (this.character.energy > 100) {
-              this.character.energy = 100;
-            }
-            this.statusBar.setPercentage(this.character.energy);
-            this.collectedCoins = 0;
-            this.statusBarCoins.setPercentage(0);
-          }, 1000);
-        } else {
-          this.statusBarCoins.setPercentage(this.collectedCoins * 20);
-        }
-        let index = this.level.coins.indexOf(coin);
-        this.level.coins.splice(index, 1);
-      }
     });
   }
 
@@ -214,31 +176,126 @@ if (
     this.ctx.restore();
   }
 
-
-collectedBottles(){
-  // Flaschen einsammeln
+  collectedBottles() {
+    // Flaschen einsammeln
+    // gehe alle Flaschen im Level durch
     this.level.bottles.forEach((bottle) => {
       if (
+        // wenn Pepe eine Flasche berührt
         this.character.isColliding(bottle) &&
+        // und im throwableObject-Array weniger als 5 Flaschen vorhanden sind
         this.throwableObjects.length < 5
       ) {
-        let throwableBottle = new ThrowableObjects(
-          this.character.x + 100,
-          this.character.y + 100,
-        );
+        this.createThrowableBottle();
 
-        this.throwableObjects.push(throwableBottle);
-
+        // ermittle den Index der eingesammelten Flasche im bottles-Array
         let index = this.level.bottles.indexOf(bottle);
+
+        // entferne die eingesammelte Flasche aus dem bottles-Array
         this.level.bottles.splice(index, 1);
 
+        // erhöhe die Prozentanzeige der gesammelten Flaschen um 20
         this.statusBarBottles.setPercentage(
           this.statusBarBottles.percentage + 20,
         );
       }
     });
-}
+  }
 
+  fiveCoins() {
+    this.statusBarCoins.setPercentage(100);
+    setTimeout(() => {
+      this.character.energy += 20;
+      if (this.character.energy > 100) {
+        this.character.energy = 100;
+      }
+      this.statusBar.setPercentage(this.character.energy);
+      this.collectedCoins = 0;
+      this.statusBarCoins.setPercentage(0);
+    }, 1000);
+  }
 
+  createThrowableBottle() {
+    // erstelle eine neue Instanz der Klasse ThrowableObjects
+    // und weise sie der Variablen throwableBottle zu
+    let throwableBottle = new ThrowableObjects(
+      this.character.x + 100,
+      this.character.y + 100,
+    );
+    // füge die neue Flasche zum throwableObjects-Array hinzu
+    this.throwableObjects.push(throwableBottle);
+  }
 
-}
+  checkCollisionChickenIntervall() {
+    setStoppableInterval(() => {
+      this.checkCollisionWithEnemies();
+    }, 50);
+  }
+
+  checkCollisionEndbossIntervall() {
+    setStoppableInterval(() => {
+      this.checkCollisionWithEndboss();
+    }, 200);
+  }
+
+  checkCollisionBottlesIntervall() {
+    setStoppableInterval(() => {
+      this.checkCollisionWithBottles();
+    }, 50);
+  }
+
+  checkCollisionCoinsIntervall() {
+    setStoppableInterval(() => {
+      this.checkCollisionWithCoins();
+    }, 200);
+  }
+
+  checkBottleCollisionWithEnemiesIntervall() {
+    setStoppableInterval(() => {
+      this.checkBottleCollisionWithEnemies();
+    }, 200);
+  }
+
+  checkBottleCollisionWithEndbossIntervall() {
+    setStoppableInterval(() => {
+      this.checkBottleCollisionWithEndboss();
+    }, 200);
+  }
+
+  checkThrowObjectsIntervall() {
+    setStoppableInterval(() => {
+      this.checkThrowObjects();
+    }, 200);
+  }
+
+  checkFlyingObjectsIntervall() {
+    setStoppableInterval(() => {
+      this.checkFlyingObjects();
+    }, 200);
+  }
+
+  isCharacterJumpingOnEnemy(enemy) {
+    return (
+      this.character.isColliding(enemy) &&
+      this.character.speedY < 0 &&
+      !enemy.isDead()
+    );
+  }
+
+  enemyIsHeadjumpedDead(enemy) {
+    enemy.energy = 0;
+    setTimeout(() => {
+      let index = this.level.enemies.indexOf(enemy);
+      this.level.enemies.splice(index, 1);
+    }, 500);
+  }
+
+  isCharacterIsCollidingEnemy(enemy) {
+    return (
+      this.character.isColliding(enemy) &&
+      !(this.character.speedY < 0) &&
+      !this.character.isHurt() &&
+      enemy.isDead() === false
+    );
+  }
+} // Ende der Klasse

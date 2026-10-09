@@ -33,8 +33,11 @@ function winning() {
 }
 
 function restartGame() {
+  stopGame();
+
   gameOverScreenRef.style.display = "none";
   winningScreenRef.style.display = "none";
+
   world = new World(canvas, keyboard);
 }
 
