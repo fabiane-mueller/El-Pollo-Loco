@@ -48,7 +48,7 @@ class DrawableObject {
 
   drawFrame(ctx) {
     if (this.checkInstances()) {
-      this.HelpFrame(ctx);
+      // this.HelpFrame(ctx);
     }
   }
 
