@@ -1,4 +1,5 @@
 const backgroundObjects = [];
+let level1;
 
 // Hintergrund generieren mit Hintergrundbildern
 function loadBackgroundGroup() {
@@ -15,14 +16,16 @@ function loadBackgroundGroup() {
 
 loadBackgroundGroup();
 
-const level1 = new Level(
-  createChickens(),
-  [new Endboss()],
-  [new Cloud()],
-  backgroundObjects,
-  createCoins(),
- createBottles()
-);
+function createLevel1() {
+  return new Level(
+    createChickens(),
+    [new Endboss()],
+    [new Cloud()],
+    backgroundObjects,
+    createCoins(),
+    createBottles()
+  );
+}
 
 function negativeBackgroundGroup() {
   backgroundObjects.push(
@@ -61,9 +64,11 @@ function createChickens() {
 
 function createCoins() {
   let coins = [];
+
   for (let i = 0; i < 15; i++) {
-    coins.push(new Coins());
+    coins.push(new Coins(i * 200));
   }
+
   return coins;
 }
 
