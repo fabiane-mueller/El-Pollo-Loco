@@ -123,6 +123,7 @@ class Character extends MovableObjects {
       if (!this.isJumping) {
         this.jump();
         this.isJumping = true;
+        AudioHub.playOne(AudioHub.PEPE_JUMP);
       }
     }
   }
@@ -140,9 +141,24 @@ class Character extends MovableObjects {
   // wenn rechts oder links gedrückt und Pepe nicht stringt, werden die Walking-Bilder angespielt
   moveRightLeftAnimation() {
     this.isJumping = false;
+
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
+      AudioHub.playOne(AudioHub.PEPE_RUN);
+    } else {
+      this.img = this.imageCache[this.IMAGES_WALKING[0]];
     }
+  }
+
+  stopWalkingSound() {
+    if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+      AudioHub.stopOne(AudioHub.PEPE_RUN);
+    }
+  }
+
+  hit() {
+    super.hit();
+    AudioHub.playOne(AudioHub.PEPE_DAMAGE);
   }
 
   moveIntervall() {
@@ -152,6 +168,7 @@ class Character extends MovableObjects {
       this.checkLeftKey();
       this.checkSpaceKey();
       this.world.camera_x = -this.x + 100;
+      this.stopWalkingSound();
     }, 1000 / 60);
   }
 
@@ -159,13 +176,15 @@ class Character extends MovableObjects {
     setStoppableInterval(() => {
       if (this.isDead()) {
         this.deathAnimation();
+        AudioHub.playOne(AudioHub.PEPE_DEAD);
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
       } else if (sleeping) {
         this.playAnimation(this.IMAGES_SLEEPING);
+      } else if (this.isAboveGround()) {
+        this.playAnimation(this.IMAGES_JUMPING);
       } else {
+       
         this.moveRightLeftAnimation();
       }
     }, 50);

@@ -15,14 +15,15 @@ class World {
 
   isFalling = false;
 
-  constructor(canvas, keyboard) {
-    this.ctx = canvas.getContext("2d");
-    this.canvas = canvas;
-    this.keyboard = keyboard;
-    this.setWorld();
-    this.draw();
-    this.run();
-  }
+constructor(canvas, keyboard, level) {
+  this.level = level;
+  this.ctx = canvas.getContext("2d");
+  this.canvas = canvas;
+  this.keyboard = keyboard;
+  this.setWorld();
+  this.draw();
+  this.run();
+}
 
   setWorld() {
     this.character.world = this;
@@ -67,6 +68,7 @@ class World {
         this.enemyIsHeadjumpedDead(enemy);
       } else if (this.isCharacterIsCollidingEnemy(enemy)) {
         this.character.hit();
+         
         this.statusBar.setPercentage(this.character.energy);
       }
     });
@@ -89,6 +91,7 @@ class World {
     this.level.coins.forEach((coin) => {
       if (this.character.isColliding(coin)) {
         this.collectedCoins++;
+        AudioHub.playOne(AudioHub.COLLECT_COIN);
         if (this.collectedCoins === 5) {
           this.fiveCoins();
         } else {
@@ -116,6 +119,7 @@ class World {
       this.level.endboss.forEach((endboss) => {
         if (bottle.isColliding(endboss)) {
           endboss.hit();
+          AudioHub.playOne(AudioHub.ENDBOSS);
           this.statusBarEndboss.setPercentage(endboss.energy);
         }
       });
@@ -156,11 +160,8 @@ class World {
 
   addToMap(mo) {
     if (mo.otherDirection) this.flipImage(mo);
-
     mo.draw(this.ctx);
-
     if (mo.otherDirection) this.flipImageBack(mo);
-
     mo.drawFrame(this.ctx);
   }
 
@@ -187,6 +188,7 @@ class World {
         this.throwableObjects.length < 5
       ) {
         this.createThrowableBottle();
+        AudioHub.playOne(AudioHub.COLLECT_BOTTLE);
 
         // ermittle den Index der eingesammelten Flasche im bottles-Array
         let index = this.level.bottles.indexOf(bottle);
@@ -284,6 +286,7 @@ class World {
 
   enemyIsHeadjumpedDead(enemy) {
     enemy.energy = 0;
+    AudioHub.playOne(AudioHub.CHICKEN_DEAD);
     setTimeout(() => {
       let index = this.level.enemies.indexOf(enemy);
       this.level.enemies.splice(index, 1);

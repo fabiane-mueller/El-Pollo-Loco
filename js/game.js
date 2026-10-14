@@ -3,20 +3,21 @@ let world;
 let keyboard = new Keyboard();
 let endScreenRef = document.getElementById("endScreen");
 
-
 let startScreenRef = document.getElementById("startScreen");
 let gameOverScreenRef = document.getElementById("gameOverScreen");
 let winningScreenRef = document.getElementById("winningScreen");
 
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+  level1 = createLevel1();
+  world = new World(canvas, keyboard, level1);
   startSleepingTimer();
-    bindBtnsPressEvents();
+  bindBtnsPressEvents();
 }
 
 function startGame() {
   startScreenRef.style.display = "none";
+  AudioHub.playOne(AudioHub.GAMESTART);
 }
 
 function gameOver() {
@@ -24,7 +25,7 @@ function gameOver() {
   stopGame();
 }
 
-function stopGame(){
+function stopGame() {
   intervalIds.forEach(clearInterval);
 }
 
@@ -34,13 +35,11 @@ function winning() {
 
 function restartGame() {
   stopGame();
-
   gameOverScreenRef.style.display = "none";
   winningScreenRef.style.display = "none";
-
-  world = new World(canvas, keyboard);
+  level1 = createLevel1();
+  world = new World(canvas, keyboard, level1);
 }
-
 
 function bindBtnsPressEvents() {
   document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
@@ -83,8 +82,6 @@ function bindBtnsPressEvents() {
     keyboard.D = false;
   });
 }
-
-
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 39) {

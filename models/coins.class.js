@@ -1,6 +1,7 @@
 let currentCoinPosition = 0;
 
 class Coins extends DrawableObject {
+   currentCoinPosition = 0;
   y = 150;
   height = 100;
   width = 100;
@@ -13,12 +14,12 @@ class Coins extends DrawableObject {
     left: 35,
   };
 
-  constructor() {
-    super().loadImage("img/8_coin/coin_1.png");
-    this.setXPosition();
-    this.y = 200 + Math.random() * 100;
-    this.getRealFrame();
-  }
+  constructor(position) {
+  super().loadImage("img/8_coin/coin_1.png");
+  this.x = position + 200;
+  this.y = 200 + Math.random() * 100;
+  this.getRealFrame();
+}
 
   setXPosition() {
     this.x = currentCoinPosition + 200;

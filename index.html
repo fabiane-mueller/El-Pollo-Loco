@@ -24,6 +24,7 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="models/bottles.class.js"></script>
+    <script src="models/audio.class.js"></script>
 
 
     <script src="levels/level1.js"></script>
@@ -35,7 +36,7 @@
     <div class="wrapper">
         <section class="menu">
             <button id="anleitungButton" class="menu-btns anleitung-btn"></button>
-            <button id="soundButton" class="menu-btns sound-btn"></button>
+            <button  onclick="AudioHub.stopAll()" id="soundButton" class="menu-btns sound-btn"></button>
             <button id="linkButton" class="menu-btns link-btn"></button>
         </section>
         <div class="rotate-screen"><img src="img/icons/rotate-phone.svg"></div>
@@ -119,10 +120,7 @@
                 </div>
             </div>
         </dialog>
-        <dialog id="soundDialog" class="dialogBox">
-            ...
-            <button class="close-dialog" onclick="closeDialog('soundDialog');">X</button>
-        </dialog>
+        
         <dialog id="linkDialog" class="dialogBox">
             <h1>Impressum</h1>
 
