@@ -1,3 +1,7 @@
+/**
+ * Represents StatusBarBottles.
+ * Inherits functionality from StatusBar.
+ */
 class StatusBarBottles extends StatusBar {
   percentage = 0;
   IMAGES = [
@@ -9,6 +13,9 @@ class StatusBarBottles extends StatusBar {
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png",
   ];
 
+  /**
+   * Initializes the object and its properties.
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES);
@@ -17,5 +24,4 @@ class StatusBarBottles extends StatusBar {
     this.y = 50;
   }
 
- 
 }

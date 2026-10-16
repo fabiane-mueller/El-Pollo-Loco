@@ -1,3 +1,7 @@
+/**
+ * Represents StatusBarEndboss.
+ * Inherits functionality from StatusBar.
+ */
 class StatusBarEndboss extends StatusBar {
   IMAGES = [
     "img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
@@ -8,6 +12,9 @@ class StatusBarEndboss extends StatusBar {
     "img/7_statusbars/2_statusbar_endboss/orange/orange100.png",
   ];
 
+  /**
+   * Initializes the object and its properties.
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES);
@@ -15,5 +22,4 @@ class StatusBarEndboss extends StatusBar {
     this.setPercentage(100);
   }
 
- 
 }

@@ -1,3 +1,7 @@
+/**
+ * Represents Endboss.
+ * Inherits functionality from MovableObjects.
+ */
 class Endboss extends MovableObjects {
   height = 500;
   width = 250;
@@ -35,6 +39,9 @@ class Endboss extends MovableObjects {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  /**
+   * Initializes the object and its properties.
+   */
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -45,6 +52,9 @@ class Endboss extends MovableObjects {
     this.getRealFrame();
   }
 
+ /**
+  * Applies damage to the object.
+  */
  hit() {
     this.energy -= 10;
     if (this.energy < 0) {
@@ -55,6 +65,9 @@ class Endboss extends MovableObjects {
     }
   }
 
+  /**
+   * Starts or updates the object animations.
+   */
   animate() {
   setStoppableInterval(() => {
     if (this.isDead()) {

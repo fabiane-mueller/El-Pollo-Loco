@@ -1,7 +1,6 @@
 const backgroundObjects = [];
 let level1;
 
-// Hintergrund generieren mit Hintergrundbildern
 function loadBackgroundGroup() {
   negativeBackgroundGroup();
   for (let index = 0; index < 7; index++) {

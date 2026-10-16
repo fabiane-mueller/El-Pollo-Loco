@@ -1,5 +1,9 @@
 let currentCoinPosition = 0;
 
+/**
+ * Represents Coins.
+ * Inherits functionality from DrawableObject.
+ */
 class Coins extends DrawableObject {
    currentCoinPosition = 0;
   y = 150;
@@ -14,6 +18,10 @@ class Coins extends DrawableObject {
     left: 35,
   };
 
+  /**
+   * Initializes the object and its properties.
+   * @param {*} position - Input used by this method.
+   */
   constructor(position) {
   super().loadImage("img/8_coin/coin_1.png");
   this.x = position + 200;
@@ -21,6 +29,9 @@ class Coins extends DrawableObject {
   this.getRealFrame();
 }
 
+  /**
+   * Handles the setXPosition operation.
+   */
   setXPosition() {
     this.x = currentCoinPosition + 200;
     currentCoinPosition = this.x;

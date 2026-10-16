@@ -1,3 +1,6 @@
+/**
+ * Represents DrawableObject.
+ */
 class DrawableObject {
   img;
   imageCache = {};
@@ -19,11 +22,18 @@ class DrawableObject {
     left: 5,
   };
 
+  /**
+   * Loads an image for the object.
+   * @param {*} path - Input used by this method.
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
 
+  /**
+   * Calculates the object's collision frame.
+   */
   getRealFrame() {
     setStoppableInterval(() => {
       this.rX = this.x + this.offset.left;
@@ -33,6 +43,10 @@ class DrawableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Checks whether this object collides with another object.
+   * @param {*} mO - Input used by this method.
+   */
   isColliding(mO) {
     return (
       this.rX + this.rW > mO.rX &&
@@ -42,16 +56,28 @@ class DrawableObject {
     );
   }
 
+  /**
+   * Draws game objects on the canvas and schedules the next frame.
+   * @param {*} ctx - Input used by this method.
+   */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /**
+   * Handles the drawFrame operation.
+   * @param {*} ctx - Input used by this method.
+   */
   drawFrame(ctx) {
     if (this.checkInstances()) {
-      // this.HelpFrame(ctx);
+      
     }
   }
 
+  /**
+   * Loads multiple images into the image cache.
+   * @param {*} arr - Input used by this method.
+   */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
@@ -60,6 +86,9 @@ class DrawableObject {
     });
   }
 
+  /**
+   * Handles the checkInstances operation.
+   */
   checkInstances() {
     return (
       this instanceof Character ||
@@ -70,6 +99,10 @@ class DrawableObject {
     );
   }
 
+  /**
+   * Handles the HelpFrame operation.
+   * @param {*} ctx - Input used by this method.
+   */
   HelpFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "5";

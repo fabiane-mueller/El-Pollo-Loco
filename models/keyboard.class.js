@@ -1,3 +1,6 @@
+/**
+ * Represents Keyboard.
+ */
 class Keyboard{
     LEFT = false;
     RIGHT = false;
@@ -6,5 +9,3 @@ class Keyboard{
     SPACE = false;
     D = false;
 }
-
-

@@ -1,5 +1,8 @@
+/**
+ * Represents AudioHub.
+ */
 class AudioHub {
-  // Audiodateien für Piano, Guitar, DRUMS
+  
   static PEPE_RUN = new Audio("sounds/character/characterRun.mp3");
   static PEPE_JUMP = new Audio("sounds/character/characterJump.wav");
   static PEPE_DAMAGE = new Audio("sounds/character/characterDamage.mp3");
@@ -15,7 +18,6 @@ class AudioHub {
 
   static GAMESTART = new Audio("sounds/game/gameStart.mp3");
 
-  // Array, das alle definierten Audio-Dateien enthält
   static allSounds = [
     AudioHub.PEPE_RUN,
     AudioHub.PEPE_JUMP,
@@ -29,26 +31,38 @@ class AudioHub {
     AudioHub.GAMESTART,
   ];
 
-  // Spielt eine einzelne Audiodatei ab
+  /**
+   * Plays a sound unless audio is muted.
+   * @param {*} sound - Input used by this method.
+   */
   static playOne(sound) {
     if(!audioMute){
-    sound.volume = 0.2; // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
-    sound.currentTime = 0; // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
-    sound.play(); // Spielt das übergebene Sound-Objekt ab
+    sound.volume = 0.2; 
+    sound.currentTime = 0; 
+    sound.play(); 
     }
   }
 
-  // Stoppt das Abspielen aller Audiodateien
+  /**
+   * Stops all registered sounds.
+   */
   static stopAll() {
     AudioHub.allSounds.forEach((sound) => {
-      sound.pause(); // Pausiert jedes Audio in der Liste
+      sound.pause(); 
     });
   }
 
-  // Stoppt das Abspielen einer einzelnen Audiodatei
+  /**
+   * Stops the specified sound.
+   * @param {*} sound - Input used by this method.
+   * @param {*} instrumentId - Input used by this method.
+   */
   static stopOne(sound, instrumentId) {
-    sound.pause(); // Pausiert das übergebene Audio
+    sound.pause(); 
   }
+  /**
+   * Toggles the game's mute state.
+   */
   static toggleMute() {
     if (!audioMute) {
       AudioHub.allSounds.forEach((sound) => {
