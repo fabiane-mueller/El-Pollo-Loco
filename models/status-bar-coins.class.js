@@ -1,3 +1,7 @@
+/**
+ * Represents StatusBarCoins.
+ * Inherits functionality from StatusBar.
+ */
 class StatusBarCoins extends StatusBar {
   percentage = 0;
   IMAGES = [
@@ -9,6 +13,9 @@ class StatusBarCoins extends StatusBar {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png",
   ];
 
+  /**
+   * Initializes the object and its properties.
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES);
@@ -18,11 +25,14 @@ class StatusBarCoins extends StatusBar {
     this.y = 2;
   }
 
+  /**
+   * Updates the status bar percentage.
+   * @param {*} percentage - Input used by this method.
+   */
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
 
-   
   }
 }

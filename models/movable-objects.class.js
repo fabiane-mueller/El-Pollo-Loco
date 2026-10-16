@@ -1,3 +1,7 @@
+/**
+ * Represents MovableObjects.
+ * Inherits functionality from DrawableObject.
+ */
 class MovableObjects extends DrawableObject {
   speed = 0.15;
   otherDirection = false;
@@ -7,7 +11,9 @@ class MovableObjects extends DrawableObject {
   lastHit = 0;
   isJumping = false;
 
-  //wenn aktuelles objekt überhalb des Bodens ist und sich bewegt, wird 40 mal die sekunde das y minus die geschwindogkeit gerechnet
+/**
+ * Applies gravity to the object.
+ */
 applyGravity() {
   setStoppableInterval(() => {
     if (this.isAboveGround() || this.speedY > 0) {
@@ -25,7 +31,9 @@ applyGravity() {
   }, 1000 / 25);
 }
 
-  //wenn objekt eine instanz von throableobjects ist prüfe ob y kleiner als 380 ist, sonst prüfe ob y kleiner als 180 ist
+  /**
+   * Checks whether the object is above the ground.
+   */
   isAboveGround() {
     if (this instanceof ThrowableObjects) {
       return this.y < 380;
@@ -34,7 +42,9 @@ applyGravity() {
     }
   }
 
-  // die Energy des Objekts wird jedes mal um 5 verringert, wenn sie kleiner als 0 isz gib 0 zurück
+  /**
+   * Applies damage to the object.
+   */
   hit() {
     this.energy -= 5;
     if (this.energy < 0) {
@@ -44,16 +54,26 @@ applyGravity() {
     }
   }
 
+  /**
+   * Checks whether the character is hurt.
+   */
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
   }
 
+  /**
+   * Checks whether the object is dead.
+   */
   isDead() {
     return this.energy == 0;
   }
 
+/**
+ * Displays the next image in the animation sequence.
+ * @param {*} images - Input used by this method.
+ */
 playAnimation(images) {
   let i = this.currentImages % images.length;
 
@@ -65,15 +85,24 @@ playAnimation(images) {
   this.img = this.imageCache[path];
   this.currentImages++;
 }
-  // die x-achse des objekts wird immer + die speed erhöht
+  
+  /**
+   * Moves the object to the right.
+   */
   moveRight() {
     this.x += this.speed;
   }
-  // die x-achse des objekts wird immer - die speed abgezogen
+  
+  /**
+   * Moves the object to the left.
+   */
   moveLeft() {
     this.x -= this.speed;
   }
 
+  /**
+   * Makes the character jump.
+   */
   jump() {
     this.speedY = 30;
   }

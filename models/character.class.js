@@ -1,3 +1,7 @@
+/**
+ * Represents Character.
+ * Inherits functionality from MovableObjects.
+ */
 class Character extends MovableObjects {
   height = 250;
   y = 180;
@@ -65,6 +69,9 @@ class Character extends MovableObjects {
   currentImages = 0;
   deathAnimationIndex = 0;
 
+  /**
+   * Initializes the object and its properties.
+   */
   constructor() {
     super();
     this.loadImagesGroup();
@@ -73,15 +80,24 @@ class Character extends MovableObjects {
     this.getRealFrame();
   }
 
+  /**
+   * Starts or updates the object animations.
+   */
   animate() {
     this.moveIntervall();
     this.setImagesIntervall();
   }
 
+  /**
+   * Makes the character jump.
+   */
   jump() {
     this.speedY = 30;
   }
-  // lädt die jeweiligen Bildergruppen
+
+  /**
+   * Handles the loadImagesGroup operation.
+   */
   loadImagesGroup() {
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -91,7 +107,9 @@ class Character extends MovableObjects {
     this.loadImages(this.IMAGES_SLEEPING);
   }
 
-  // wenn eine Taste gedrückt wird, startet der SleepTimer neu
+  /**
+   * Restarts the sleep timer when a movement key is pressed.
+   */
   checkSleepig() {
     if (
       this.world.keyboard.RIGHT ||
@@ -103,21 +121,29 @@ class Character extends MovableObjects {
     }
   }
 
-  //wenn nach rechts gedrückt wird und x kleiner als das ende der leinwand ist
+  /**
+   * Handles rightward movement input.
+   */
   checkRightKey() {
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
       this.moveRight();
       this.otherDirection = false;
     }
   }
-  // wenn links gedrückt wird und x größer als 0 ist
+
+  /**
+   * Handles leftward movement input.
+   */
   checkLeftKey() {
     if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
     }
   }
-  // wenn die leertaste gedrückt ist und isaboveground false ist
+
+  /**
+   * Handles jump input.
+   */
   checkSpaceKey() {
     if (this.world.keyboard.SPACE && !this.isAboveGround()) {
       if (!this.isJumping) {
@@ -127,7 +153,10 @@ class Character extends MovableObjects {
       }
     }
   }
-  // die Bilder, wenn Pepe tot ist, wird nur einmal abgespielt und das letzte Bild bleibt stehen
+
+  /**
+   * Plays the character's death animation.
+   */
   deathAnimation() {
     if (this.deathAnimationIndex < this.IMAGES_DEAD.length) {
       this.img = this.imageCache[this.IMAGES_DEAD[this.deathAnimationIndex]];
@@ -138,7 +167,9 @@ class Character extends MovableObjects {
     }
   }
 
-  // wenn rechts oder links gedrückt und Pepe nicht stringt, werden die Walking-Bilder angespielt
+  /**
+   * Updates the walking animation and sound.
+   */
   moveRightLeftAnimation() {
     this.isJumping = false;
 
@@ -150,17 +181,26 @@ class Character extends MovableObjects {
     }
   }
 
+  /**
+   * Stops the walking sound when the character is no longer moving.
+   */
   stopWalkingSound() {
     if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
       AudioHub.stopOne(AudioHub.PEPE_RUN);
     }
   }
 
+  /**
+   * Applies damage to the object.
+   */
   hit() {
     super.hit();
     AudioHub.playOne(AudioHub.PEPE_DAMAGE);
   }
 
+  /**
+   * Starts the recurring keyboard and movement check.
+   */
   moveIntervall() {
     setStoppableInterval(() => {
       this.checkSleepig();
@@ -172,6 +212,9 @@ class Character extends MovableObjects {
     }, 1000 / 60);
   }
 
+  /**
+   * Updates the character's animation according to its current state.
+   */
   setImagesIntervall() {
     setStoppableInterval(() => {
       if (this.isDead()) {
@@ -184,7 +227,6 @@ class Character extends MovableObjects {
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
-       
         this.moveRightLeftAnimation();
       }
     }, 50);

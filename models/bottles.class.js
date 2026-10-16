@@ -1,6 +1,6 @@
 /**
- * Represents a collectible bottle in the game.
- * Inherits image and drawing functionality from DrawableObject.
+ * Represents Bottles.
+ * Inherits functionality from DrawableObject.
  */
 class Bottles extends DrawableObject {
   y = 380;
@@ -15,8 +15,7 @@ class Bottles extends DrawableObject {
   };
 
   /**
-   * Creates a bottle, assigns its image and random horizontal position,
-   * and calculates its collision frame.
+   * Initializes the object and its properties.
    */
   constructor() {
     super().loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
