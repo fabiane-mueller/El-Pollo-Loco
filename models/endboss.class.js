@@ -49,7 +49,7 @@ class Endboss extends MovableObjects {
     this.energy -= 10;
     if (this.energy < 0) {
       this.energy = 0;
-      AudioHub.playOne(AudioHub.ENDBOSS_DEAD);
+      AudioHub.playOne(AudioHub.ENDBOSS);
     } else {
       this.lastHit = new Date().getTime();
     }

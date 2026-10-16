@@ -1,21 +1,19 @@
 class AudioHub {
   // Audiodateien für Piano, Guitar, DRUMS
-  static PEPE_RUN = new Audio("../sounds/character/characterRun.mp3");
-  static PEPE_JUMP = new Audio("../sounds/character/characterJump.wav");
-  static PEPE_DAMAGE = new Audio("../sounds/character/characterDamage.mp3");
-  static PEPE_DEAD = new Audio("../sounds/character/characterDead.wav");
-  static PEPE_SLEEP = new Audio("../sounds/character/characterSnoring.mp3");
+  static PEPE_RUN = new Audio("sounds/character/characterRun.mp3");
+  static PEPE_JUMP = new Audio("sounds/character/characterJump.wav");
+  static PEPE_DAMAGE = new Audio("sounds/character/characterDamage.mp3");
+  static PEPE_DEAD = new Audio("sounds/character/characterDead.wav");
+  static PEPE_SLEEP = new Audio("sounds/character/characterSnoring.mp3");
 
-  static CHICKEN_DEAD = new Audio("../sounds/chicken/chickenDead.mp3");
+  static CHICKEN_DEAD = new Audio("sounds/chicken/chickenDead.mp3");
 
-  static COLLECT_BOTTLE = new Audio("../sounds/collectibles/bottleCollectSound.wav");
-  static COLLECT_COIN = new Audio("../sounds/collectibles/collectSound.wav");
+  static COLLECT_BOTTLE = new Audio("sounds/collectibles/bottleCollectSound.wav");
+  static COLLECT_COIN = new Audio("sounds/collectibles/collectSound.wav");
 
-  static ENDBOSS = new Audio("../sounds/endboss/endbossApproach.wav");
+  static ENDBOSS = new Audio("sounds/endboss/endbossApproach.wav");
 
-  static GAMESTART = new Audio("../sounds/game/gameStart.mp3");
-
-
+  static GAMESTART = new Audio("sounds/game/gameStart.mp3");
 
   // Array, das alle definierten Audio-Dateien enthält
   static allSounds = [
@@ -33,9 +31,11 @@ class AudioHub {
 
   // Spielt eine einzelne Audiodatei ab
   static playOne(sound) {
+    if(!audioMute){
     sound.volume = 0.2; // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
     sound.currentTime = 0; // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
     sound.play(); // Spielt das übergebene Sound-Objekt ab
+    }
   }
 
   // Stoppt das Abspielen aller Audiodateien
@@ -43,11 +43,23 @@ class AudioHub {
     AudioHub.allSounds.forEach((sound) => {
       sound.pause(); // Pausiert jedes Audio in der Liste
     });
-    document.getElementById("volume").value = 0.2; // Setzt den Sound-Slider wieder auf 0.2
   }
 
   // Stoppt das Abspielen einer einzelnen Audiodatei
   static stopOne(sound, instrumentId) {
     sound.pause(); // Pausiert das übergebene Audio
+  }
+  static toggleMute() {
+    if (!audioMute) {
+      AudioHub.allSounds.forEach((sound) => {
+        sound.volume = 0;
+      });
+      audioMute = true;
+    } else {
+      AudioHub.allSounds.forEach((sound) => {
+        sound.volume = 0.2;
+      });
+      audioMute = false;
+    }
   }
 }

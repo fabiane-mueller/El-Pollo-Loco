@@ -68,7 +68,6 @@ constructor(canvas, keyboard, level) {
         this.enemyIsHeadjumpedDead(enemy);
       } else if (this.isCharacterIsCollidingEnemy(enemy)) {
         this.character.hit();
-         
         this.statusBar.setPercentage(this.character.energy);
       }
     });
@@ -97,7 +96,6 @@ constructor(canvas, keyboard, level) {
         } else {
           this.statusBarCoins.setPercentage(this.collectedCoins * 20);
         }
-
         let index = this.level.coins.indexOf(coin);
         this.level.coins.splice(index, 1);
       }
@@ -128,7 +126,6 @@ constructor(canvas, keyboard, level) {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectsToMap(this.level.backgroundObjects);
@@ -136,17 +133,13 @@ constructor(canvas, keyboard, level) {
 
     this.ctx.translate(-this.camera_x, 0);
 
-    this.addToMap(this.statusBar);
-    this.addToMap(this.statusBarEndboss);
-    this.addToMap(this.statusBarCoins);
-    this.addToMap(this.statusBarBottles);
+    this.drawStatusbars();
 
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.flyingObjects);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.level.coins);
-    this.addObjectsToMap(this.level.bottles);
-    this.addObjectsToMap(this.level.endboss);
+   
+
+    this.addObjectsToMapGroup();
+
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
@@ -301,4 +294,20 @@ constructor(canvas, keyboard, level) {
       enemy.isDead() === false
     );
   }
+
+drawStatusbars(){
+  this.addToMap(this.statusBar);
+    this.addToMap(this.statusBarEndboss);
+    this.addToMap(this.statusBarCoins);
+   this.addToMap(this.statusBarBottles);
+}
+
+addObjectsToMapGroup(){
+ this.addObjectsToMap(this.flyingObjects);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.endboss);
+}
+
 } // Ende der Klasse

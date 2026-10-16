@@ -104,6 +104,9 @@ button:hover {
 .sound-btn:hover {
   background: url("img/icons/sound-hr.png") no-repeat center center / contain;
 }
+.sound-btn.muted {
+  background-image: url("img/icons/sound-mute.png");
+}
 
 .link-btn {
   background: url("img/icons/link.png") no-repeat center center / contain;
