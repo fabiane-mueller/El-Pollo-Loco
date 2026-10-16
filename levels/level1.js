@@ -64,11 +64,9 @@ function createChickens() {
 
 function createCoins() {
   let coins = [];
-
   for (let i = 0; i < 15; i++) {
     coins.push(new Coins(i * 200));
   }
-
   return coins;
 }
 

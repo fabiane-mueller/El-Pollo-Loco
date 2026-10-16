@@ -19,10 +19,6 @@ class Chicken extends MovableObjects {
     "img/3_enemies_chicken/chicken_normal/2_dead/dead.png"
   ]
 
-
- 
-  
-
   currentImages = 0;
 
   constructor() {
@@ -42,8 +38,6 @@ class Chicken extends MovableObjects {
     setStoppableInterval(() => {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
-      
-     
     }  else {
       this.playAnimation(this.IMAGES_WALKING);
     }
