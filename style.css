@@ -194,10 +194,11 @@ dialog::backdrop {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  img {
-    width: clamp(200px, 40%, 400px);
-    margin-bottom: 15px;
-  }
+  background:url(img/startscreen.png) no-repeat center center / cover;
+}
+
+.start-screen button{
+  margin-top:30px;
 }
 
 .d-none {
