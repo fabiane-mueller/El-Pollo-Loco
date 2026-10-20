@@ -12,15 +12,16 @@ let sleepTimer;
 
 function init() {
   canvas = document.getElementById("canvas");
-  level1 = createLevel1();
-  world = new World(canvas, keyboard, level1);
-  startSleepingTimer();
+  
   bindBtnsPressEvents();
 }
 
 function startGame() {
   startScreenRef.style.display = "none";
   AudioHub.playOne(AudioHub.GAMESTART);
+  level1 = createLevel1();
+  world = new World(canvas, keyboard, level1);
+  startSleepingTimer();
 }
 
 function gameOver() {
