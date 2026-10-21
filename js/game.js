@@ -35,6 +35,8 @@ function stopGame() {
 
 function winning() {
   winningScreenRef.classList.remove("d-none");
+  stopGame();
+  
 }
 
 function restartGame() {
