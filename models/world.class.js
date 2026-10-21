@@ -18,21 +18,21 @@ class World {
 
   isFalling = false;
 
-/**
- * Initializes the object and its properties.
- * @param {*} canvas - Input used by this method.
- * @param {*} keyboard - Input used by this method.
- * @param {*} level - Input used by this method.
- */
-constructor(canvas, keyboard, level) {
-  this.level = level;
-  this.ctx = canvas.getContext("2d");
-  this.canvas = canvas;
-  this.keyboard = keyboard;
-  this.setWorld();
-  this.draw();
-  this.run();
-}
+  /**
+   * Initializes the object and its properties.
+   * @param {*} canvas - Input used by this method.
+   * @param {*} keyboard - Input used by this method.
+   * @param {*} level - Input used by this method.
+   */
+  constructor(canvas, keyboard, level) {
+    this.level = level;
+    this.ctx = canvas.getContext("2d");
+    this.canvas = canvas;
+    this.keyboard = keyboard;
+    this.setWorld();
+    this.draw();
+    this.run();
+  }
 
   /**
    * Assigns the game world to the object.
@@ -167,22 +167,14 @@ constructor(canvas, keyboard, level) {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
-
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
-
     this.ctx.translate(-this.camera_x, 0);
-
     this.drawStatusbars();
-
     this.ctx.translate(this.camera_x, 0);
-
     this.addObjectsToMapGroup();
-
     this.addToMap(this.character);
-
     this.ctx.translate(-this.camera_x, 0);
-
     requestAnimationFrame(() => this.draw());
   }
 
@@ -229,12 +221,9 @@ constructor(canvas, keyboard, level) {
    * Checks for bottle collection and updates the inventory and status bar.
    */
   collectedBottles() {
-
     this.level.bottles.forEach((bottle) => {
       if (
-        
         this.character.isColliding(bottle) &&
-        
         this.throwableObjects.length < 5
       ) {
         this.createThrowableBottle();
@@ -271,12 +260,11 @@ constructor(canvas, keyboard, level) {
    * Creates a throwable bottle and adds it to the inventory.
    */
   createThrowableBottle() {
-
     let throwableBottle = new ThrowableObjects(
       this.character.x + 100,
       this.character.y + 100,
     );
-    
+
     this.throwableObjects.push(throwableBottle);
   }
 
@@ -390,25 +378,38 @@ constructor(canvas, keyboard, level) {
     );
   }
 
-/**
- * Draws the game's status bars.
- */
-drawStatusbars(){
-  this.addToMap(this.statusBar);
-    this.addToMap(this.statusBarEndboss);
-    this.addToMap(this.statusBarCoins);
-   this.addToMap(this.statusBarBottles);
-}
+  /**
+   * Draws the game's status bars.
+   */
+  drawStatusbars() {
+    this.addToMap(this.statusBar);
+    this.drawStatusbarEndboss();
 
-/**
- * Handles the addObjectsToMapGroup operation.
- */
-addObjectsToMapGroup(){
- this.addObjectsToMap(this.flyingObjects);
+    this.addToMap(this.statusBarCoins);
+    this.addToMap(this.statusBarBottles);
+  }
+
+  /**
+   * Handles the addObjectsToMapGroup operation.
+   */
+  addObjectsToMapGroup() {
+    this.addObjectsToMap(this.flyingObjects);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.endboss);
-}
+    
+  }
 
+  /**
+   * Draws the endboss statusbar when the endboss appears.
+   */
+  drawStatusbarEndboss() {
+    if (
+      this.level.endboss[0].x <= -this.camera_x + 720 &&
+      this.level.endboss[0].x + this.level.endboss[0].width >= -this.camera_x
+    ) {
+      this.addToMap(this.statusBarEndboss);
+    }
+  }
 }
