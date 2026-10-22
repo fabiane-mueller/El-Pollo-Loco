@@ -40,10 +40,10 @@
             <button id="linkButton" class="menu-btns link-btn"></button>
         </section>
         <div class="rotate-screen"><img src="img/icons/rotate-phone.svg"></div>
-        <div class="game-box">
+        <div class="game-box" id="gamebox">
 
             <div id="startScreen" class="start-screen">
-                
+
                 <button onclick="startGame()">Spiel starten</button>
             </div>
             <canvas width="720px" height="480px" id="canvas"></canvas>
@@ -94,33 +94,35 @@
 
 
                 <h4>Steuerung</h4>
-                <div class="steuerung-box">
-                    <div class="steuerung-img">
-                        <img src="img/icons/bewegen.png">
+                <div class="steuerung">
+                    <div class="steuerung-box">
+                        <div class="steuerung-img">
+                            <img src="img/icons/bewegen.png">
+                        </div>
+                        <div class="steuerung-desc">
+                            <p>Bewegen</p>
+                        </div>
                     </div>
-                    <div class="steuerung-desc">
-                        <p>Bewegen</p>
+                    <div class="steuerung-box">
+                        <div class="steuerung-img">
+                            <img src="img/icons/springen.png">
+                        </div>
+                        <div class="steuerung-desc">
+                            <p>Springen</p>
+                        </div>
                     </div>
-                </div>
-                <div class="steuerung-box">
-                    <div class="steuerung-img">
-                        <img src="img/icons/springen.png">
-                    </div>
-                    <div class="steuerung-desc">
-                        <p>Springen</p>
-                    </div>
-                </div>
-                <div class="steuerung-box">
-                    <div class="steuerung-img">
-                        <img src="img/icons/werfen.png">
-                    </div>
-                    <div class="steuerung-desc">
-                        <p>Werfen</p>
+                    <div class="steuerung-box">
+                        <div class="steuerung-img">
+                            <img src="img/icons/werfen.png">
+                        </div>
+                        <div class="steuerung-desc">
+                            <p>Werfen</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </dialog>
-        
+
         <dialog id="linkDialog" class="dialogBox">
             <h1>Impressum</h1>
 

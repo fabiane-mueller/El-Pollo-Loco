@@ -6,6 +6,7 @@ let endScreenRef = document.getElementById("endScreen");
 let startScreenRef = document.getElementById("startScreen");
 let gameOverScreenRef = document.getElementById("gameOverScreen");
 let winningScreenRef = document.getElementById("winningScreen");
+let gameboxRef = document.getElementById("gamebox");
 let audioMute = false;
 let sleeping = false;
 let sleepTimer;
@@ -17,6 +18,7 @@ function init() {
 
 function startGame() {
   startScreenRef.style.display = "none";
+  gameboxRef.classList.add("spiel-gestartet")
   AudioHub.playOne(AudioHub.GAMESTART);
   level1 = createLevel1();
   world = new World(canvas, keyboard, level1);
@@ -136,6 +138,9 @@ function startSleepingTimer() {
     sleeping = true;
   }, 12000);
 }
+
+
+
 
 function touchStartLeft() {
   document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
