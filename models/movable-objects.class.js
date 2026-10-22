@@ -45,14 +45,13 @@ applyGravity() {
   /**
    * Applies damage to the object.
    */
-  hit() {
-    this.energy -= 5;
-    if (this.energy < 0) {
-      this.energy = 0;
-    } else {
-      this.lastHit = new Date().getTime();
-    }
-  }
+hit() {
+  if (this.energy <= 0) return false;
+
+  this.energy -= 5;
+  this.lastHit = new Date().getTime();
+  return true;
+}
 
   /**
    * Checks whether the character is hurt.

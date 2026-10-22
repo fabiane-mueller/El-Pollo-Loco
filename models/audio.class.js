@@ -67,6 +67,7 @@ class AudioHub {
     if (!audioMute) {
       AudioHub.allSounds.forEach((sound) => {
         sound.volume = 0;
+        
       });
       audioMute = true;
     } else {
@@ -75,5 +76,6 @@ class AudioHub {
       });
       audioMute = false;
     }
+    localStorage.setItem("audioMute", audioMute);
   }
 }

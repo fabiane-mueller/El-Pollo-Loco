@@ -78,6 +78,7 @@ class Character extends MovableObjects {
     this.applyGravity();
     this.animate();
     this.getRealFrame();
+    
   }
 
   /**
@@ -167,6 +168,14 @@ class Character extends MovableObjects {
     }
   }
 
+playWalkingSound() {
+  setStoppableInterval(() => {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      AudioHub.playOne(AudioHub.PEPE_RUN);
+    }
+  }, 500);
+}
+
   /**
    * Updates the walking animation and sound.
    */
@@ -175,7 +184,6 @@ class Character extends MovableObjects {
 
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
-      AudioHub.playOne(AudioHub.PEPE_RUN);
     } else {
       this.img = this.imageCache[this.IMAGES_WALKING[0]];
     }
@@ -193,10 +201,11 @@ class Character extends MovableObjects {
   /**
    * Applies damage to the object.
    */
-  hit() {
-    super.hit();
+hit() {
+  if (super.hit()) {
     AudioHub.playOne(AudioHub.PEPE_DAMAGE);
   }
+}
 
   /**
    * Starts the recurring keyboard and movement check.
@@ -209,7 +218,7 @@ class Character extends MovableObjects {
       this.checkSpaceKey();
       this.world.camera_x = -this.x + 100;
       this.stopWalkingSound();
-    }, 1000 / 60);
+    }, 1000 / 30);
   }
 
   /**
