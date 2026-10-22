@@ -39,6 +39,7 @@ class World {
    */
   setWorld() {
     this.character.world = this;
+    this.character.playWalkingSound();
   }
 
   /**
@@ -90,6 +91,7 @@ class World {
         this.enemyIsHeadjumpedDead(enemy);
       } else if (this.isCharacterIsCollidingEnemy(enemy)) {
         this.character.hit();
+
         this.statusBar.setPercentage(this.character.energy);
       }
     });
@@ -98,14 +100,15 @@ class World {
   /**
    * Checks collisions between the character and the end boss.
    */
-  checkCollisionWithEndboss() {
-    this.level.endboss.forEach((endboss) => {
-      if (this.character.isColliding(endboss)) {
-        this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
-      }
-    });
-  }
+checkCollisionWithEndboss() {
+  this.level.endboss.forEach((endboss) => {
+    if (this.character.isColliding(endboss) && !this.character.isHurt()) {
+      this.character.hit();
+      this.statusBar.setPercentage(this.character.energy);
+    }
+  });
+}
+
 
   /**
    * Checks for bottle collection collisions.
@@ -283,7 +286,7 @@ class World {
   checkCollisionEndbossIntervall() {
     setStoppableInterval(() => {
       this.checkCollisionWithEndboss();
-    }, 200);
+    }, 50);
   }
 
   /**

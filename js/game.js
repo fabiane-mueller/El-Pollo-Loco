@@ -12,7 +12,6 @@ let sleepTimer;
 
 function init() {
   canvas = document.getElementById("canvas");
-  
   bindBtnsPressEvents();
 }
 
@@ -36,7 +35,6 @@ function stopGame() {
 function winning() {
   winningScreenRef.classList.remove("d-none");
   stopGame();
-  
 }
 
 function restartGame() {
@@ -113,6 +111,10 @@ window.addEventListener("keyup", (e) => {
 document.getElementById("anleitungButton").addEventListener("click", () => {
   document.getElementById("anleitungDialog").showModal();
 });
+
+audioMute = localStorage.getItem("audioMute") === "true";
+
+document.getElementById("soundButton").classList.toggle("muted", audioMute);
 
 document.getElementById("soundButton").addEventListener("click", () => {
   AudioHub.toggleMute();
